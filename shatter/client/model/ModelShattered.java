@@ -7,6 +7,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GLAllocation;
@@ -62,6 +63,10 @@ public class ModelShattered extends ModelBase
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
+		if(shatteredEnt.acquired == Minecraft.getMinecraft().thePlayer && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0)
+		{
+			return;
+		}
 		GL11.glPushMatrix();
 
 		GL11.glRotatef(renderYaw, 0.0F, 1.0F, 0.0F);

@@ -1,12 +1,16 @@
 package shatter.common;
 
 import ichun.core.LoggerHelper;
+import ichun.core.config.Config;
+import ichun.core.config.ConfigHandler;
+import ichun.core.config.IConfigUser;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import shatter.client.core.TickHandlerClient;
@@ -30,15 +34,21 @@ import cpw.mods.fml.relauncher.SideOnly;
 			serverSideRequired = false
 				)
 public class Shatter 
+	implements IConfigUser
 {
-	public static final String version = "2.0.0";
+	public static final String version = "2.0.1";
 	
 	private static final Logger logger = LoggerHelper.createLogger("Shatter");
 	
 	@Instance("Shatter")
 	public static Shatter instance;
 
+	public static Config config;
+	
 	public static TickHandlerClient tickHandlerClient;
+	
+	@Override
+	public boolean onConfigChange(Config cfg, Property prop) { return true; }
 
 	@EventHandler
 	public void preLoad(FMLPreInitializationEvent event)
@@ -48,6 +58,12 @@ public class Shatter
 			console("You're loading Shatter on a server! This is a client-only mod!", true);
 			return;
 		}
+		
+		config = ConfigHandler.createConfig(event.getSuggestedConfigurationFile(), "shatter", "Shatter", logger, instance);
+		
+		config.createOrUpdateIntProperty("clientOnly", "Client Only", "enableBossShatter", "Enable Shatter - Boss mobs", "The reason this is disabled by default is due to rendering issues that may occur due to some boss' unique models.\nGood examples are the Minecraft's Ender Dragon, and TwilightForest's Naga and Hydra.\n\n0 = No\n1 = Yes", true, 0, 0, 1);
+		config.createOrUpdateIntProperty("clientOnly", "Client Only", "enablePlayerShatter", "Enable Shatter - Player mobs", "Enable Shatter on Players?.\n\n0 = No\n1 = Yes", true, 1, 0, 1);
+		config.createOrUpdateIntProperty("clientOnly", "Client Only", "enableChildShatter", "Enable Shatter - Child mobs", "The reason this is disabled by default is due to rendering issues that occur due to the way Minecraft rescales children.\nShattering child mobs will show an adult model.\n\n0 = No\n1 = Yes", true, 0, 0, 1);
 		
 		init();
 	}
@@ -66,8 +82,12 @@ public class Shatter
 	@ForgeSubscribe
 	public void onLivingDeath(LivingDeathEvent event)
 	{
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient() && !(event.entityLiving instanceof IBossDisplayData) && !event.entityLiving.isChild())
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
 		{
+			if(config.getInt("enableBossShatter") == 0 && event.entityLiving instanceof IBossDisplayData || config.getInt("enableChildShatter") == 0 && event.entityLiving.isChild())
+			{
+				return;
+			}
 			tickHandlerClient.shatterTimeout.put(event.entityLiving, 2);
 		}
 	}

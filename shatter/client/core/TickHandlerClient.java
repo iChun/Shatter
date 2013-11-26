@@ -1,5 +1,6 @@
 package shatter.client.core;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,9 +12,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
 import shatter.client.entity.EntityShattered;
 import shatter.client.model.ModelShattered;
 import shatter.client.render.RenderShattered;
+import shatter.common.Shatter;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -60,14 +63,26 @@ public class TickHandlerClient implements ITickHandler {
 		{
 			clock = world.getWorldTime();
 			
-//			for(int i = 0; i < world.loadedEntityList.size(); i++)
-//			{
-//				Entity ent = (Entity)world.loadedEntityList.get(i);
-//				if((ent instanceof EntityLivingBase && !(ent instanceof IBossDisplayData)) && !((EntityLivingBase)ent).isChild() && (!ent.isEntityAlive() || ((EntityLivingBase)ent).deathTime > 0) && !shatterTimeout.containsKey(ent))
-//				{
-//					shatterTimeout.put((EntityLivingBase)ent, 2);
-//				}
-//			}
+			if(Shatter.config.getInt("enablePlayerShatter") == 1)
+			{
+				for(int i = 0; i < world.playerEntities.size(); i++)
+				{
+					EntityPlayer ent = (EntityPlayer)world.playerEntities.get(i);
+					if(!ent.isEntityAlive() && !shatterTimeout.containsKey(ent) && !deadPlayers.contains(ent))
+					{
+						deadPlayers.add(ent);
+						shatterTimeout.put((EntityLivingBase)ent, 2);
+					}
+					for(int k = deadPlayers.size() - 1; k >= 0; k--)
+					{
+						EntityPlayer deadPlayer = deadPlayers.get(k);
+						if(deadPlayer.worldObj != world || deadPlayer.username.equals(ent.username) && deadPlayer != ent)
+						{
+							deadPlayers.remove(k);
+						}
+					}
+				}
+			}
 			
 			Iterator<Entry<EntityLivingBase, Integer>> ite = shatterTimeout.entrySet().iterator();
 			if(ite.hasNext())
@@ -84,8 +99,11 @@ public class TickHandlerClient implements ITickHandler {
 				
 				if(e.getValue() <= 0)
 				{
-					e.getKey().worldObj.spawnEntityInWorld(new EntityShattered(e.getKey().worldObj, e.getKey()));
-					e.getKey().setDead();
+					if(e.getKey().worldObj == world)
+					{
+						e.getKey().worldObj.spawnEntityInWorld(new EntityShattered(e.getKey().worldObj, e.getKey()));
+						e.getKey().setDead();
+					}
 					ite.remove();
 				}
 			}
@@ -100,6 +118,7 @@ public class TickHandlerClient implements ITickHandler {
     public RenderShattered renderShatteredInstance;
     
     public HashMap<EntityLivingBase, Integer> shatterTimeout = new HashMap<EntityLivingBase, Integer>();
+    public ArrayList<EntityPlayer> deadPlayers = new ArrayList<EntityPlayer>();
 
 	public final int maxShatterProgress = 100;
 }

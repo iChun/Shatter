@@ -39,7 +39,7 @@ public class EntityShattered extends EntityLivingBase
 		noClip = true;
 		renderDistanceWeight = 10D;
 		ignoreFrustumCheck = true;
-		setLocationAndAngles(acquired.posX, acquired.posY, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
+		setLocationAndAngles(acquired.posX, acquired.posY - acquired.yOffset, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
 		motionX = ac.motionX * 0.4D;
 		motionY = ac.motionY * 0.15D;
 		motionZ = ac.motionZ * 0.4D;
