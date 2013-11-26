@@ -82,7 +82,6 @@ public class ModelShattered extends ModelBase
 //		GL11.glScalef(prevScaleX, prevScaleY, prevScaleZ);
 		
 		float progress = MathHelper.clamp_float((float)Math.pow(((double)shatteredEnt.progress + f5) / (double)Shatter.tickHandlerClient.maxShatterProgress, 0.99D), 0.0F, 1.0F);
-		float progress2 = MathHelper.clamp_float(((float)shatteredEnt.progress + f5) / ((float)Shatter.tickHandlerClient.maxShatterProgress - 10F), 0.0F, 1.0F);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -99,6 +98,8 @@ public class ModelShattered extends ModelBase
 			cube.render(f5);
 			GL11.glPopMatrix();
 		}
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();

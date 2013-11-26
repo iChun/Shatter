@@ -53,7 +53,7 @@ public class EntityShattered extends EntityLivingBase
 		prevPosZ = posZ;
 		
 		progress++;
-		if(progress > Shatter.tickHandlerClient.maxShatterProgress)
+		if(progress > Shatter.tickHandlerClient.maxShatterProgress + 5)
 		{
 			setDead();
 			return;
