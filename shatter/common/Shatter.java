@@ -36,7 +36,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class Shatter 
 	implements IConfigUser
 {
-	public static final String version = "2.0.1";
+	public static final String version = "2.0.2";
 	
 	private static final Logger logger = LoggerHelper.createLogger("Shatter");
 	

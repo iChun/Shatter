@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import shatter.client.entity.EntityShattered;
 import shatter.client.model.ModelShattered;
 import shatter.client.render.RenderShattered;
@@ -38,6 +39,10 @@ public class TickHandlerClient implements ITickHandler {
         		worldTick(Minecraft.getMinecraft(), Minecraft.getMinecraft().theWorld);
         	}
         }
+		else if (type.equals(EnumSet.of(TickType.PLAYER)))
+		{
+			playerTick((World)((EntityPlayer)tickData[0]).worldObj, (EntityPlayer)tickData[0]);
+		}
 	}
 
 	@Override
@@ -48,7 +53,7 @@ public class TickHandlerClient implements ITickHandler {
 	@Override
 	public EnumSet<TickType> ticks() 
 	{
-		return EnumSet.of(TickType.CLIENT);
+		return EnumSet.of(TickType.CLIENT, TickType.PLAYER);
 	}
 
 	@Override
@@ -62,27 +67,6 @@ public class TickHandlerClient implements ITickHandler {
 		if(clock != world.getWorldTime() || !world.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
 		{
 			clock = world.getWorldTime();
-			
-			if(Shatter.config.getInt("enablePlayerShatter") == 1)
-			{
-				for(int i = 0; i < world.playerEntities.size(); i++)
-				{
-					EntityPlayer ent = (EntityPlayer)world.playerEntities.get(i);
-					if(!ent.isEntityAlive() && !shatterTimeout.containsKey(ent) && !deadPlayers.contains(ent))
-					{
-						deadPlayers.add(ent);
-						shatterTimeout.put((EntityLivingBase)ent, 2);
-					}
-					for(int k = deadPlayers.size() - 1; k >= 0; k--)
-					{
-						EntityPlayer deadPlayer = deadPlayers.get(k);
-						if(deadPlayer.worldObj != world || deadPlayer.username.equals(ent.username) && deadPlayer != ent)
-						{
-							deadPlayers.remove(k);
-						}
-					}
-				}
-			}
 			
 			Iterator<Entry<EntityLivingBase, Integer>> ite = shatterTimeout.entrySet().iterator();
 			if(ite.hasNext())
@@ -108,6 +92,26 @@ public class TickHandlerClient implements ITickHandler {
 				}
 			}
 			
+		}
+	}
+	
+	public void playerTick(World world, EntityPlayer player)
+	{
+		if(Shatter.config.getInt("enablePlayerShatter") == 1)
+		{
+			if(!player.isEntityAlive() && !shatterTimeout.containsKey(player) && !deadPlayers.contains(player))
+			{
+				deadPlayers.add(player);
+				shatterTimeout.put((EntityLivingBase)player, 2);
+			}
+			for(int k = deadPlayers.size() - 1; k >= 0; k--)
+			{
+				EntityPlayer deadPlayer = deadPlayers.get(k);
+				if(deadPlayer.worldObj != world || deadPlayer.username.equals(player.username) && deadPlayer != player)
+				{
+					deadPlayers.remove(k);
+				}
+			}
 		}
 	}
 	

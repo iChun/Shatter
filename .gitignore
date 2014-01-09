@@ -12,6 +12,7 @@ net/
 paulscode/
 assets/forge/
 ichun/
+streak/
 
 # MC/Forge files #
 deobfuscation_data-*.lzma

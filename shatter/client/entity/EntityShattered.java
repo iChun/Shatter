@@ -69,6 +69,12 @@ public class EntityShattered extends EntityLivingBase
 	}
 	
 	@Override
+    public boolean shouldRenderInPass(int pass)
+    {
+        return pass == 1;
+    }
+	
+	@Override
     public boolean canBeCollidedWith()
     {
         return false;
