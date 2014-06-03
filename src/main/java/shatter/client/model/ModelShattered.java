@@ -89,6 +89,7 @@ public class ModelShattered extends ModelBase
 		
 		float progress = MathHelper.clamp_float((float)Math.pow(((double)shatteredEnt.progress + f5) / (double)Shatter.tickHandlerClient.maxShatterProgress, 0.99D), 0.0F, 1.0F);
 
+        GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F - progress);

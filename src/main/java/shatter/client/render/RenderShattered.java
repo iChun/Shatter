@@ -1,6 +1,7 @@
 package shatter.client.render;
 
 import ichun.common.core.util.ObfHelper;
+import org.lwjgl.opengl.GL11;
 import shatter.client.entity.EntityShattered;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -31,8 +32,16 @@ public class RenderShattered extends RendererLivingEntity
     protected void passSpecialRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
     {
     }
-	
-	public void setMainModel(ModelBase base)
+
+    @Override
+    public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+    {
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+        super.doRender(par1EntityLivingBase, par2, par4, par6, par8, par9);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+    }
+
+    public void setMainModel(ModelBase base)
 	{
 		mainModel = base;
 	}
