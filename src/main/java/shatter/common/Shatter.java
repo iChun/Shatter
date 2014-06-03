@@ -5,6 +5,8 @@ import ichun.common.core.config.Config;
 import ichun.common.core.config.ConfigHandler;
 import ichun.common.core.config.IConfigUser;
 
+import ichun.common.core.updateChecker.ModVersionChecker;
+import ichun.common.core.updateChecker.ModVersionInfo;
 import ichun.common.iChunUtil;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraftforge.common.MinecraftForge;
@@ -56,11 +58,13 @@ public class Shatter
 		
 		config = ConfigHandler.createConfig(event.getSuggestedConfigurationFile(), "shatter", "Shatter", logger, instance);
 
-        config.setCurrentCategory("clientOnly", "Client Only", "These settings only affect the client running the mod.");
-        config.createIntBoolProperty("enableBossShatter", "Enable Shatter - Boss mobs", "The reason this is disabled by default is due to rendering issues that may occur due to some boss' unique models.\nGood examples are the Minecraft's Ender Dragon, and TwilightForest's Naga and Hydra.", true, false, false);
-		config.createIntBoolProperty("enablePlayerShatter", "Enable Shatter - Player mobs", "Enable Shatter on Players?", true, false, true);
-		config.createIntBoolProperty("enableChildShatter", "Enable Shatter - Child mobs", "The reason this is disabled by default is due to rendering issues that occur due to the way Minecraft rescales children.\nShattering child mobs will show an adult model.", true, false, false);
-		
+        config.setCurrentCategory("clientOnly", "shatter.config.cat.clientOnly.name", "shatter.config.cat.clientOnly.comment");
+        config.createIntBoolProperty("enableBossShatter", "shatter.config.prop.enableBossShatter.name", "shatter.config.prop.enableBossShatter.comment", true, false, false);
+		config.createIntBoolProperty("enablePlayerShatter", "shatter.config.prop.enablePlayerShatter.name", "shatter.config.prop.enablePlayerShatter.comment", true, false, true);
+		config.createIntBoolProperty("enableChildShatter", "shatter.config.prop.enableChildShatter.name", "shatter.config.prop.enableChildShatter.comment", true, false, false);
+
+        ModVersionChecker.register_iChunMod(new ModVersionInfo("Shatter", "1.7", version, false));
+
 		init();
 	}
 
