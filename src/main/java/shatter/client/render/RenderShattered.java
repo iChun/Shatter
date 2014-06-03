@@ -1,10 +1,8 @@
 package shatter.client.render;
 
-import ichun.core.ObfHelper;
+import ichun.common.core.util.ObfHelper;
 import shatter.client.entity.EntityShattered;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;

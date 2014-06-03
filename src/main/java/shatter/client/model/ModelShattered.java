@@ -1,7 +1,7 @@
 package shatter.client.model;
 
 import ichun.client.model.ModelHelper;
-import ichun.core.ObfHelper;
+import ichun.common.core.util.ObfHelper;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -59,7 +59,8 @@ public class ModelShattered extends ModelBase
 		
 		this.renderYaw = ent.acquired.renderYawOffset;
 	}
-	
+
+    //TODO check why the rendering of models is kinda borked.
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
@@ -87,7 +88,7 @@ public class ModelShattered extends ModelBase
 //		GL11.glScalef(prevScaleX, prevScaleY, prevScaleZ);
 		
 		float progress = MathHelper.clamp_float((float)Math.pow(((double)shatteredEnt.progress + f5) / (double)Shatter.tickHandlerClient.maxShatterProgress, 0.99D), 0.0F, 1.0F);
-		
+
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F - progress);
@@ -97,7 +98,7 @@ public class ModelShattered extends ModelBase
 			ModelRenderer cube = modelList.get(i);
 		
 			GL11.glPushMatrix();
-			rand.setSeed(rand.nextInt() * shatteredEnt.entityId * i * 1000);
+			rand.setSeed(rand.nextInt() * shatteredEnt.getEntityId() * i * 1000);
 			GL11.glTranslated(rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * shatteredEnt.motionZ * 5D, rand.nextDouble() * progress * (shatteredEnt.motionY + (rand.nextDouble() - 1.0D)) , rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * shatteredEnt.motionX * 5D);
 			GL11.glRotatef(180F * rand.nextFloat() * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress);
 			cube.render(f5);

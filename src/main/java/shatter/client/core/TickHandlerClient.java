@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,52 +21,27 @@ import shatter.client.entity.EntityShattered;
 import shatter.client.model.ModelShattered;
 import shatter.client.render.RenderShattered;
 import shatter.common.Shatter;
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
 
-public class TickHandlerClient implements ITickHandler {
+public class TickHandlerClient
+{
 
 	public TickHandlerClient()
 	{
 		renderShatteredInstance = new RenderShattered(new ModelShattered(), 0.0F);
 		renderShatteredInstance.setRenderManager(RenderManager.instance);
 	}
-	
-	@Override
-	public void tickStart(EnumSet<TickType> type, Object... tickData) 
+
+    @SubscribeEvent
+	public void worldTick(TickEvent.ClientTickEvent event)
 	{
-        if (type.equals(EnumSet.of(TickType.CLIENT)))
+        if(!(event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().theWorld != null))
         {
-        	if(Minecraft.getMinecraft().theWorld != null)
-        	{      		
-        		worldTick(Minecraft.getMinecraft(), Minecraft.getMinecraft().theWorld);
-        	}
+            return;
         }
-		else if (type.equals(EnumSet.of(TickType.PLAYER)))
-		{
-			playerTick((World)((EntityPlayer)tickData[0]).worldObj, (EntityPlayer)tickData[0]);
-		}
-	}
 
-	@Override
-	public void tickEnd(EnumSet<TickType> type, Object... tickData) 
-	{
-	}
+        Minecraft mc = Minecraft.getMinecraft();
+        WorldClient world = mc.theWorld;
 
-	@Override
-	public EnumSet<TickType> ticks() 
-	{
-		return EnumSet.of(TickType.CLIENT, TickType.PLAYER);
-	}
-
-	@Override
-	public String getLabel() 
-	{
-		return "TickHandlerClientShatter";
-	}
-
-	public void worldTick(Minecraft mc, WorldClient world)
-	{
 		if(clock != world.getWorldTime() || !world.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
 		{
 			clock = world.getWorldTime();
@@ -94,9 +72,17 @@ public class TickHandlerClient implements ITickHandler {
 			
 		}
 	}
-	
-	public void playerTick(World world, EntityPlayer player)
+
+    @SubscribeEvent
+	public void playerTick(TickEvent.PlayerTickEvent event)
 	{
+        if(event.side == Side.SERVER || event.phase != TickEvent.Phase.END)
+        {
+            return;
+        }
+        World world = event.player.worldObj;
+        EntityPlayer player = event.player;
+
 		if(Shatter.config.getInt("enablePlayerShatter") == 1)
 		{
 			if(!player.isEntityAlive() && !shatterTimeout.containsKey(player) && !deadPlayers.contains(player))
@@ -107,7 +93,7 @@ public class TickHandlerClient implements ITickHandler {
 			for(int k = deadPlayers.size() - 1; k >= 0; k--)
 			{
 				EntityPlayer deadPlayer = deadPlayers.get(k);
-				if(deadPlayer.worldObj != world || deadPlayer.username.equals(player.username) && deadPlayer != player)
+				if(deadPlayer.worldObj != world || deadPlayer.getCommandSenderName().equals(player.getCommandSenderName()) && deadPlayer != player)
 				{
 					deadPlayers.remove(k);
 				}
@@ -115,8 +101,6 @@ public class TickHandlerClient implements ITickHandler {
 		}
 	}
 	
-    public boolean serverHasMod;
-    
     public long clock;
     
     public RenderShattered renderShatteredInstance;
