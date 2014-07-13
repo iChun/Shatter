@@ -1,0 +1,11 @@
+shatter.config.cat.clientOnly.name=Somente no Cliente
+
+shatter.config.cat.clientOnly.comment=Estas configurações afetam somente o cliente que carrega o mod.
+
+shatter.config.prop.enableBossShatter.name=Ativar Despedaçamento - Bosses
+shatter.config.prop.enablePlayerShatter.name=Ativar Despedaçamento - Jogadores
+shatter.config.prop.enableChildShatter.name=Ativar Despedaçamento - Flhotes
+
+shatter.config.prop.enableBossShatter.comment=A razão que isto está desativado por padrão é devido a alguns problemas de renderização que podem ocorrer por causa de modelos únicos de Bosses.\nBons exemplos são o Ender Dragon do Minecraft, e a Naga e a Hydra da Twillight Forest.
+shatter.config.prop.enablePlayerShatter.comment=Ativar Despedaçamento de Jogadores?
+shatter.config.prop.enableChildShatter.comment=A razão que isto está desativado por padrão é devido a alguns problemas de renderização que podem ocorrer por causa da maneira como o Minecraft re-escala os filhotes.\nDespedaçando flhotes será mostrado um modelo adulto.
