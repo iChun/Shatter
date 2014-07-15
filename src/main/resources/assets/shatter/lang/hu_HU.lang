@@ -1,0 +1,11 @@
+shatter.config.cat.clientOnly.name=Csak Kliens
+
+shatter.config.cat.clientOnly.comment=Ezek a beállítások csak a kliensre vonatkoznak.
+
+shatter.config.prop.enableBossShatter.name=Engedélyez Shatter - Boss mobok
+shatter.config.prop.enablePlayerShatter.name=Engedélyez Shatter - Játékos mobok
+shatter.config.prop.enableChildShatter.name=Engedélyez Shatter - Bébi mobok
+
+shatter.config.prop.enableBossShatter.comment=Az ok amiért alapból le van tiltva, mivel renderelési problémák vannak amik összetettebb bossoknál jelentkeznek.\nEgy jó példa Minecraft: EnderDragon vagy a Twilight Forest-ből Naga vagy a Hydra.
+shatter.config.prop.enablePlayerShatter.comment=Engedélyezzem a Shattert játékosokon?
+shatter.config.prop.enableChildShatter.comment=Az ok amiért ez le van tiltva, mivel problémák vannak a Minecraft mob átméretezési funkcióival.\nA Shatter felnőtt mobokat fog mutatni a bébik helyett!
