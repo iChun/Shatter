@@ -1,0 +1,11 @@
+shatter.config.cat.clientOnly.name=Cliente unicamente
+
+shatter.config.cat.clientOnly.comment=Esas opciones solo afectan al cliente que carga el mod.
+
+shatter.config.prop.enableBossShatter.name=Activar Shatter - Jefes
+shatter.config.prop.enablePlayerShatter.name=Activar Shatter - Jugadores
+shatter.config.prop.enableChildShatter.name=Activar Shatter - Mobs niños
+
+shatter.config.prop.enableBossShatter.comment=La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurren cuando un jefe tiene modelos unicos./nBuenos ejemplos son el Ender Dragon, de Minecraft, y Naga y la Hydra de TwilightForest
+shatter.config.prop.enablePlayerShatter.comment=¿Activar Shatter en jugadores?
+shatter.config.prop.enableChildShatter.comment=La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurre porque Minecraft ajusta el tamaño de los niños.\nCortando mobs chicos mostraria modelos de mobs adultos.
