@@ -1,0 +1,11 @@
+shatter.config.cat.clientOnly.name=Solo Un Jugador
+
+shatter.config.cat.clientOnly.comment=Esto solo afecta el Minecraft que carga el mod.
+
+shatter.config.prop.enableBossShatter.name=Encender Shatter - Jefe mobs
+shatter.config.prop.enablePlayerShatter.name=Encender Shatter - Jugadores mobs
+shatter.config.prop.enableChildShatter.name=Encender Shatter - Bebes mobs
+
+shatter.config.prop.enableBossShatter.comment=La razon de que esto este apagado por default es debido por un problemas de rendimiento por unos jefes' unicos modelos.\nBuenos ejemplos son el Minecraft Dragon Ender, y Twilight Forest Naga y Hydra.
+shatter.config.prop.enablePlayerShatter.comment=Encender Shatter en los jugadores?
+shatter.config.prop.enableChildShatter.comment=La razon de que esto este apagado por default es debido por un problemas de rendimiento por la manera que Minecraft reescala los bebes.\nShattereando bebes mobs que muestran un modelo adulto.
