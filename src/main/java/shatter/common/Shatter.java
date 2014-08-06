@@ -63,7 +63,7 @@ public class Shatter
 		config.createIntBoolProperty("enablePlayerShatter", "shatter.config.prop.enablePlayerShatter.name", "shatter.config.prop.enablePlayerShatter.comment", true, false, true);
 		config.createIntBoolProperty("enableChildShatter", "shatter.config.prop.enableChildShatter.name", "shatter.config.prop.enableChildShatter.comment", true, false, false);
 
-        ModVersionChecker.register_iChunMod(new ModVersionInfo("Shatter", "1.7", version, false));
+        ModVersionChecker.register_iChunMod(new ModVersionInfo("Shatter", iChunUtil.versionOfMC, version, false));
 
 		init();
 	}
