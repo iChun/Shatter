@@ -1,0 +1,11 @@
+shatter.config.cat.clientOnly.name=Solo Client
+
+shatter.config.cat.clientOnly.comment=Queste impostazioni avranno effetto solo sul client che carica la mod.
+
+shatter.config.prop.enableBossShatter.name=Abilita Shatter - Mob boss
+shatter.config.prop.enablePlayerShatter.name=Abilita Shatter - Mob giocatore
+shatter.config.prop.enableChildShatter.name=Abilita Shatter - Mob piccoli
+
+shatter.config.prop.enableBossShatter.comment=La ragione per cui questo è disabilitato di default, è per i problemi di rendering che potrebbero avvenire per i modelli particolari di alcuni boss.\nBuoni esempi solo il drago dell'end, e i Naga ed Hydra della Twilight Forest.
+shatter.config.prop.enablePlayerShatter.comment=Abilitare Shatter sui Giocatori?
+shatter.config.prop.enableChildShatter.comment=La ragione per cui questo è disabilitato di default, è per i problemi di rendering che avvengono per il modo in cui Minecraft riscala i piccoli.\nUsare lo Shatter su un mob piccolo mostrerà un mob adulto.
