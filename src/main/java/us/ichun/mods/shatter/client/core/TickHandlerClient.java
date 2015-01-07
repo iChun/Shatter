@@ -1,4 +1,4 @@
-package shatter.client.core;
+package us.ichun.mods.shatter.client.core;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,20 +17,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import shatter.client.entity.EntityShattered;
-import shatter.client.model.ModelShattered;
-import shatter.client.render.RenderShattered;
-import shatter.common.Shatter;
+import us.ichun.mods.shatter.client.entity.EntityShattered;
+import us.ichun.mods.shatter.client.model.ModelShattered;
+import us.ichun.mods.shatter.client.render.RenderShattered;
+import us.ichun.mods.shatter.common.Shatter;
+import us.ichun.mods.shatter.common.Shatter;
 
 public class TickHandlerClient
 {
-
-	public TickHandlerClient()
-	{
-		renderShatteredInstance = new RenderShattered(new ModelShattered(), 0.0F);
-		renderShatteredInstance.setRenderManager(RenderManager.instance);
-	}
-
     @SubscribeEvent
 	public void worldTick(TickEvent.ClientTickEvent event)
 	{
@@ -55,9 +49,6 @@ public class TickHandlerClient
 				
 				e.getKey().hurtTime = 0;
 				e.getKey().deathTime = 0;
-				
-				Entity explo = null;
-				double dist = 1000D;
 				
 				if(e.getValue() <= 0)
 				{
@@ -93,7 +84,7 @@ public class TickHandlerClient
 			for(int k = deadPlayers.size() - 1; k >= 0; k--)
 			{
 				EntityPlayer deadPlayer = deadPlayers.get(k);
-				if(deadPlayer.worldObj != world || deadPlayer.getCommandSenderName().equals(player.getCommandSenderName()) && deadPlayer != player)
+				if(deadPlayer.worldObj != world || deadPlayer.getName().equals(player.getName()) && deadPlayer != player)
 				{
 					deadPlayers.remove(k);
 				}
@@ -102,8 +93,6 @@ public class TickHandlerClient
 	}
 	
     public long clock;
-    
-    public RenderShattered renderShatteredInstance;
     
     public HashMap<EntityLivingBase, Integer> shatterTimeout = new HashMap<EntityLivingBase, Integer>();
     public ArrayList<EntityPlayer> deadPlayers = new ArrayList<EntityPlayer>();

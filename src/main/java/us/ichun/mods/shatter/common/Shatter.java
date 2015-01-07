@@ -1,13 +1,16 @@
-package shatter.common;
+package us.ichun.mods.shatter.common;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import ichun.common.core.config.Config;
-import ichun.common.core.config.ConfigHandler;
-import ichun.common.core.config.IConfigUser;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import us.ichun.mods.shatter.client.model.ModelShattered;
+import us.ichun.mods.shatter.client.render.RenderShattered;
+import us.ichun.mods.ichunutil.common.core.config.Config;
+import us.ichun.mods.ichunutil.common.core.config.ConfigHandler;
+import us.ichun.mods.ichunutil.common.core.config.IConfigUser;
 
-import ichun.common.core.updateChecker.ModVersionChecker;
-import ichun.common.core.updateChecker.ModVersionInfo;
-import ichun.common.iChunUtil;
+import us.ichun.mods.ichunutil.common.core.updateChecker.ModVersionChecker;
+import us.ichun.mods.ichunutil.common.core.updateChecker.ModVersionInfo;
+import us.ichun.mods.ichunutil.common.iChunUtil;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
@@ -15,16 +18,16 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import shatter.client.core.TickHandlerClient;
-import shatter.client.entity.EntityShattered;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import us.ichun.mods.shatter.client.core.TickHandlerClient;
+import us.ichun.mods.shatter.client.entity.EntityShattered;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = "Shatter", name = "Shatter",
 			version = Shatter.version,
@@ -58,27 +61,26 @@ public class Shatter
 		
 		config = ConfigHandler.createConfig(event.getSuggestedConfigurationFile(), "shatter", "Shatter", logger, instance);
 
-        config.setCurrentCategory("clientOnly", "shatter.config.cat.clientOnly.name", "shatter.config.cat.clientOnly.comment");
-        config.createIntBoolProperty("enableBossShatter", "shatter.config.prop.enableBossShatter.name", "shatter.config.prop.enableBossShatter.comment", true, false, false);
-		config.createIntBoolProperty("enablePlayerShatter", "shatter.config.prop.enablePlayerShatter.name", "shatter.config.prop.enablePlayerShatter.comment", true, false, true);
-		config.createIntBoolProperty("enableChildShatter", "shatter.config.prop.enableChildShatter.name", "shatter.config.prop.enableChildShatter.comment", true, false, false);
+        config.setCurrentCategory("clientOnly");
+        config.createIntBoolProperty("enableBossShatter", true, false, false);
+		config.createIntBoolProperty("enablePlayerShatter", true, false, true);
+		config.createIntBoolProperty("enableChildShatter", true, false, false);
 
         ModVersionChecker.register_iChunMod(new ModVersionInfo("Shatter", iChunUtil.versionOfMC, version, false));
-
-		init();
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void init()
+	@EventHandler
+	public void load(FMLInitializationEvent event)
 	{
 		tickHandlerClient = new TickHandlerClient();
-        FMLCommonHandler.instance().bus().register(tickHandlerClient);
+		FMLCommonHandler.instance().bus().register(tickHandlerClient);
 
 		MinecraftForge.EVENT_BUS.register(instance);
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityShattered.class, tickHandlerClient.renderShatteredInstance);
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityShattered.class, new RenderShattered(new ModelShattered(), 0.0F));
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent event)
 	{

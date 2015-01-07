@@ -1,13 +1,14 @@
-package shatter.client.entity;
+package us.ichun.mods.shatter.client.entity;
 
-import shatter.client.model.ModelShattered;
-import shatter.common.Shatter;
+import us.ichun.mods.shatter.client.model.ModelShattered;
+import us.ichun.mods.shatter.common.Shatter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import us.ichun.mods.shatter.common.Shatter;
 
 public class EntityShattered extends EntityLivingBase
 {
@@ -16,12 +17,12 @@ public class EntityShattered extends EntityLivingBase
 	public int progress;
 	
 	public ModelShattered model;
-	
+
+	//TODO no more yOffset. What do?
 	public EntityShattered(World par1World) 
 	{
 		super(par1World);
 		model = new ModelShattered(this);
-		yOffset = -0.5F;
 		setSize(0.1F, 0.1F);
 		noClip = true;
 		renderDistanceWeight = 10D;
@@ -34,12 +35,11 @@ public class EntityShattered extends EntityLivingBase
 		acquired = ac;
 		model = new ModelShattered(this);
 		progress = 0;
-		yOffset = -0.5F;
 		setSize(0.1F, 0.1F);
 		noClip = true;
 		renderDistanceWeight = 10D;
 		ignoreFrustumCheck = true;
-		setLocationAndAngles(acquired.posX, acquired.posY - acquired.yOffset, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
+		setLocationAndAngles(acquired.posX, acquired.posY, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
 		motionX = ac.motionX * 0.4D;
 		motionY = ac.motionY * 0.15D;
 		motionZ = ac.motionZ * 0.4D;
@@ -126,12 +126,18 @@ public class EntityShattered extends EntityLivingBase
 	}
 
 	@Override
+	public ItemStack getCurrentArmor(int slotIn)
+	{
+		return null;
+	}
+
+	@Override
 	public void setCurrentItemOrArmor(int i, ItemStack itemstack) {
 	}
 
 	@Override
-	public ItemStack[] getLastActiveItems() {
+	public ItemStack[] getInventory()
+	{
 		return new ItemStack[0];
 	}
-
 }
