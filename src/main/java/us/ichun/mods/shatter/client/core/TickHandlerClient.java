@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import us.ichun.mods.ichunutil.common.iChunUtil;
 import us.ichun.mods.shatter.client.entity.EntityShattered;
 import us.ichun.mods.shatter.client.model.ModelShattered;
 import us.ichun.mods.shatter.client.render.RenderShattered;
@@ -46,16 +47,23 @@ public class TickHandlerClient
 				Entry<EntityLivingBase, Integer> e = ite.next();
 				
 				e.setValue(e.getValue() - 1);
-				
-				e.getKey().hurtTime = 0;
-				e.getKey().deathTime = 0;
+
+				EntityLivingBase ent = e.getKey();
+
+				if(iChunUtil.hasMorphMod && ent instanceof EntityPlayer && morph.api.Api.hasMorph(ent.getName(), true))
+				{
+					 ent = morph.api.Api.getMorphEntity(ent.getName(), true);
+				}
+
+				ent.hurtTime = 0;
+				ent.deathTime = 0;
 				
 				if(e.getValue() <= 0)
 				{
-					if(e.getKey().worldObj == world)
+					if(ent.worldObj == world)
 					{
-						e.getKey().worldObj.spawnEntityInWorld(new EntityShattered(e.getKey().worldObj, e.getKey()));
-						e.getKey().setDead();
+						ent.worldObj.spawnEntityInWorld(new EntityShattered(ent.worldObj, ent));
+						ent.setDead();
 					}
 					ite.remove();
 				}
