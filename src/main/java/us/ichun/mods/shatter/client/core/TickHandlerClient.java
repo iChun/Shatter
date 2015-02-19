@@ -82,7 +82,7 @@ public class TickHandlerClient
         World world = event.player.worldObj;
         EntityPlayer player = event.player;
 
-		if(Shatter.config.getInt("enablePlayerShatter") == 1)
+		if(Shatter.config.enablePlayerShatter == 1)
 		{
 			if(!player.isEntityAlive() && !shatterTimeout.containsKey(player) && !deadPlayers.contains(player))
 			{
