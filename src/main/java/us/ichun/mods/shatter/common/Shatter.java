@@ -28,7 +28,8 @@ import us.ichun.mods.shatter.common.core.Config;
 
 @Mod(modid = "Shatter", name = "Shatter",
         version = Shatter.version,
-        dependencies = "required-after:iChunUtil@[" + iChunUtil.versionMC +".0.0,)"
+        dependencies = "required-after:iChunUtil@[" + iChunUtil.versionMC +".0.0,)",
+        clientSideOnly = true
 )
 public class Shatter
 {

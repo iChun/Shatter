@@ -50,9 +50,9 @@ public class TickHandlerClient
 
 				EntityLivingBase ent = e.getKey();
 
-				if(iChunUtil.hasMorphMod && ent instanceof EntityPlayer && morph.api.Api.hasMorph(ent.getName(), true))
+				if(iChunUtil.hasMorphMod && ent instanceof EntityPlayer && morph.api.Api.hasMorph(ent.getCommandSenderName(), true))
 				{
-					 ent = morph.api.Api.getMorphEntity(ent.getName(), true);
+					 ent = morph.api.Api.getMorphEntity(ent.getCommandSenderName(), true);
 				}
 
 				ent.hurtTime = 0;
@@ -92,7 +92,7 @@ public class TickHandlerClient
 			for(int k = deadPlayers.size() - 1; k >= 0; k--)
 			{
 				EntityPlayer deadPlayer = deadPlayers.get(k);
-				if(deadPlayer.worldObj != world || deadPlayer.getName().equals(player.getName()) && deadPlayer != player)
+				if(deadPlayer.worldObj != world || deadPlayer.getCommandSenderName().equals(player.getCommandSenderName()) && deadPlayer != player)
 				{
 					deadPlayers.remove(k);
 				}
