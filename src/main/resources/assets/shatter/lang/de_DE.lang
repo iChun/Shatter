@@ -1,11 +1,11 @@
 shatter.config.cat.clientOnly.name=Nur Client
 
-shatter.config.cat.clientOnly.comment=Diese Einstellungen betreffen nur den Client der die Mod lädt.
+shatter.config.cat.clientOnly.comment=Diese Einstellungen beeinflussen nur den Client, auf dem der Mod läuft.
 
 shatter.config.prop.enableBossShatter.name=Aktiviere Shatter - Boss mobs
 shatter.config.prop.enablePlayerShatter.name=Aktiviere Shatter - Spieler mobs
 shatter.config.prop.enableChildShatter.name=Aktiviere Shatter - Kinder mobs
 
-shatter.config.prop.enableBossShatter.comment=Der Grund wieso dies standardmässig deaktiviert ist, ist wegen Rendering-Problemen die bei einigen Bossen auftreten können.\nGute Beispiele sind der Minecraft Enderdrache, die TwilightForest Naga und Hydra.
+shatter.config.prop.enableBossShatter.comment=Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern, die bei einigen Bossen auftreten können.\nGute Beispiele sind der Minecraft Enderdrache, sowie Naga und Hydra aus TwilightForest.
 shatter.config.prop.enablePlayerShatter.comment=Aktiviere Shatter von Spielern?
-shatter.config.prop.enableChildShatter.comment=Der Grund wieso dies standardmässig deaktiviert ist, ist wegen Rendering-Problemen auf Grund der Art und Weise wie Minecraft Kinder skaliert.\nDas Shattering von Kinder Mobs zeigt Erwachsene Modele an.
+shatter.config.prop.enableChildShatter.comment=Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern und der Art und Weise, wie Minecraft Kinder skaliert.\nShatter von Kinder Mobs zeigt Erwachsene Modele an.
