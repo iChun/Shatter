@@ -1,14 +1,15 @@
-package us.ichun.mods.shatter.client.entity;
+package me.ichun.mods.shatter.client.entity;
 
-import us.ichun.mods.shatter.client.model.ModelShattered;
-import us.ichun.mods.shatter.common.Shatter;
-import net.minecraft.entity.Entity;
+import me.ichun.mods.shatter.client.model.ModelShattered;
+import me.ichun.mods.shatter.common.Shatter;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.world.World;
-import us.ichun.mods.shatter.common.Shatter;
+
+import javax.annotation.Nullable;
 
 public class EntityShattered extends EntityLivingBase
 {
@@ -25,7 +26,6 @@ public class EntityShattered extends EntityLivingBase
 		model = new ModelShattered(this);
 		setSize(0.1F, 0.1F);
 		noClip = true;
-		renderDistanceWeight = 10D;
 		ignoreFrustumCheck = true;
 	}
 	
@@ -37,7 +37,6 @@ public class EntityShattered extends EntityLivingBase
 		progress = 0;
 		setSize(0.1F, 0.1F);
 		noClip = true;
-		renderDistanceWeight = 10D;
 		ignoreFrustumCheck = true;
 		setLocationAndAngles(acquired.posX, acquired.posY, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
 		motionX = ac.motionX * 0.4D;
@@ -87,11 +86,36 @@ public class EntityShattered extends EntityLivingBase
     }
 
 	@Override
+	public EnumHandSide getPrimaryHand()
+	{
+		return null;
+	}
+
+	@Override
     public boolean isEntityAlive()
     {
         return !this.isDead;
     }
-	
+
+	@Override
+	public Iterable<ItemStack> getArmorInventoryList()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
+	{
+		return null;
+	}
+
+	@Override
+	public void setItemStackToSlot(EntityEquipmentSlot slotIn, @Nullable ItemStack stack)
+	{
+
+	}
+
 	@Override
     public void setHealth(float par1)
     {
@@ -115,29 +139,4 @@ public class EntityShattered extends EntityLivingBase
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {}
 
-	@Override
-	public ItemStack getHeldItem() {
-		return null;
-	}
-
-	@Override
-	public ItemStack getEquipmentInSlot(int i) {
-		return null;
-	}
-
-	@Override
-	public ItemStack getCurrentArmor(int slotIn)
-	{
-		return null;
-	}
-
-	@Override
-	public void setCurrentItemOrArmor(int i, ItemStack itemstack) {
-	}
-
-	@Override
-	public ItemStack[] getInventory()
-	{
-		return new ItemStack[0];
-	}
 }

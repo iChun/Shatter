@@ -1,4 +1,4 @@
-package us.ichun.mods.shatter.client.model;
+package me.ichun.mods.shatter.client.model;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -7,13 +7,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.common.Shatter;
-import us.ichun.mods.ichunutil.client.model.ModelHelper;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.common.Shatter;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.common.Shatter;
+import me.ichun.mods.ichunutil.client.model.ModelHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
