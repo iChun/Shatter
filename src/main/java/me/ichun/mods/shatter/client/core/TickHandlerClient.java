@@ -1,28 +1,22 @@
-package us.ichun.mods.shatter.client.core;
+package me.ichun.mods.shatter.client.core;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
+import me.ichun.mods.ichunutil.common.iChunUtil;
+import me.ichun.mods.morph.api.MorphApi;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.common.Shatter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import us.ichun.mods.ichunutil.common.iChunUtil;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.client.model.ModelShattered;
-import us.ichun.mods.shatter.client.render.RenderShattered;
-import us.ichun.mods.shatter.common.Shatter;
-import us.ichun.mods.shatter.common.Shatter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public class TickHandlerClient
 {
@@ -37,7 +31,7 @@ public class TickHandlerClient
         Minecraft mc = Minecraft.getMinecraft();
         WorldClient world = mc.theWorld;
 
-		if(clock != world.getWorldTime() || !world.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+		if(clock != world.getWorldTime() || !world.getGameRules().getBoolean("doDaylightCycle"))
 		{
 			clock = world.getWorldTime();
 			
@@ -50,9 +44,9 @@ public class TickHandlerClient
 
 				EntityLivingBase ent = e.getKey();
 
-				if(iChunUtil.hasMorphMod && ent instanceof EntityPlayer && morph.api.Api.hasMorph(ent.getCommandSenderName(), true))
+				if(iChunUtil.hasMorphMod() && ent instanceof EntityPlayer && MorphApi.getApiImpl().hasMorph(ent.getName(), Side.CLIENT))
 				{
-					 ent = morph.api.Api.getMorphEntity(ent.getCommandSenderName(), true);
+					 ent = MorphApi.getApiImpl().getMorphEntity(world, ent.getName(), Side.CLIENT);
 				}
 
 				ent.hurtTime = 0;
@@ -92,7 +86,7 @@ public class TickHandlerClient
 			for(int k = deadPlayers.size() - 1; k >= 0; k--)
 			{
 				EntityPlayer deadPlayer = deadPlayers.get(k);
-				if(deadPlayer.worldObj != world || deadPlayer.getCommandSenderName().equals(player.getCommandSenderName()) && deadPlayer != player)
+				if(deadPlayer.worldObj != world || deadPlayer.getName().equals(player.getName()) && deadPlayer != player)
 				{
 					deadPlayers.remove(k);
 				}

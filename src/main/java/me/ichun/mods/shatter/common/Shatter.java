@@ -1,5 +1,13 @@
-package us.ichun.mods.shatter.common;
+package me.ichun.mods.shatter.common;
 
+import me.ichun.mods.ichunutil.common.core.config.ConfigHandler;
+import me.ichun.mods.ichunutil.common.iChunUtil;
+import me.ichun.mods.ichunutil.common.module.update.UpdateChecker;
+import me.ichun.mods.shatter.client.core.TickHandlerClient;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.client.model.ModelShattered;
+import me.ichun.mods.shatter.client.render.RenderShattered;
+import me.ichun.mods.shatter.common.core.Config;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -16,26 +24,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import us.ichun.mods.ichunutil.common.core.config.ConfigHandler;
-import us.ichun.mods.ichunutil.common.core.updateChecker.ModVersionChecker;
-import us.ichun.mods.ichunutil.common.core.updateChecker.ModVersionInfo;
-import us.ichun.mods.ichunutil.common.iChunUtil;
-import us.ichun.mods.shatter.client.core.TickHandlerClient;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.client.model.ModelShattered;
-import us.ichun.mods.shatter.client.render.RenderShattered;
-import us.ichun.mods.shatter.common.core.Config;
 
-@Mod(modid = "Shatter", name = "Shatter",
-        version = Shatter.version,
-        dependencies = "required-after:iChunUtil@[" + iChunUtil.versionMC +".0.0,)",
+@Mod(modid = "shatter", name = "Shatter",
+        version = Shatter.VERSION,
+        dependencies = "required-after:ichunutil@[" + iChunUtil.VERSION_OF_MC +".0.0,)",
         clientSideOnly = true
 )
 public class Shatter
 {
-    public static final String version = iChunUtil.versionMC + ".0.0";
+    public static final String VERSION = iChunUtil.VERSION_OF_MC + ".0.0";
 
-    private static final Logger logger = LogManager.getLogger("Shatter");
+    private static final Logger LOGGER = LogManager.getLogger("Shatter");
 
     @Instance("Shatter")
     public static Shatter instance;
@@ -55,7 +54,7 @@ public class Shatter
 
         config = (Config)ConfigHandler.registerConfig(new Config(event.getSuggestedConfigurationFile()));
 
-        ModVersionChecker.register_iChunMod(new ModVersionInfo("Shatter", iChunUtil.versionOfMC, version, false));
+        UpdateChecker.registerMod(new UpdateChecker.ModVersionInfo("Shatter", iChunUtil.VERSION_OF_MC, VERSION, false));
     }
 
     @SideOnly(Side.CLIENT)
@@ -75,17 +74,17 @@ public class Shatter
     {
         if(FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
-            if(config.enableBossShatter == 0 && event.entityLiving instanceof IBossDisplayData || config.enableChildShatter == 0 && event.entityLiving.isChild())
+            if(config.enableBossShatter == 0 && event.getEntityLiving() instanceof IBossDisplayData || config.enableChildShatter == 0 && event.getEntityLiving().isChild())
             {
                 return;
             }
-            tickHandlerClient.shatterTimeout.put(event.entityLiving, 2);
+            tickHandlerClient.shatterTimeout.put(event.getEntityLiving(), 2);
         }
     }
 
     public static void console(String s, boolean warning)
     {
         StringBuilder sb = new StringBuilder();
-        logger.log(warning ? Level.WARN : Level.INFO, sb.append("[").append(version).append("] ").append(s).toString());
+        LOGGER.log(warning ? Level.WARN : Level.INFO, sb.append("[").append(VERSION).append("] ").append(s).toString());
     }
 }

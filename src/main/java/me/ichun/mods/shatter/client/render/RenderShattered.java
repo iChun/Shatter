@@ -1,20 +1,19 @@
-package us.ichun.mods.shatter.client.render;
+package me.ichun.mods.shatter.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.monster.EntitySlime;
-import us.ichun.mods.ichunutil.common.core.util.ObfHelper;
+import me.ichun.mods.ichunutil.common.core.util.ObfHelper;
+import net.minecraft.entity.EntityLiving;
 import org.lwjgl.opengl.GL11;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
 
-public class RenderShattered extends RendererLivingEntity 
+public class RenderShattered extends RenderLiving
 {
 
 	public RenderShattered(ModelBase par1ModelBase, float par2) 
@@ -30,19 +29,14 @@ public class RenderShattered extends RendererLivingEntity
 			setMainModel(((EntityShattered)entity).model);
 		}
 		RenderManager manager = Minecraft.getMinecraft().getRenderManager();
-		return ObfHelper.invokeGetEntityTexture(manager.getEntityRenderObject(((EntityShattered)entity).acquired), manager.getEntityRenderObject(((EntityShattered)entity).acquired).getClass(), ((EntityShattered)entity).acquired);
+		return ObfHelper.getEntityTexture(manager.getEntityRenderObject(((EntityShattered)entity).acquired), manager.getEntityRenderObject(((EntityShattered)entity).acquired).getClass(), ((EntityShattered)entity).acquired);
 	}
 	
-	@Override
-    public void passSpecialRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
-    {
-    }
-
     @Override
     public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
     {
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        super.doRender(par1EntityLivingBase, par2, par4 - 0.5F, par6, par8, par9);
+        super.doRender((EntityLiving)par1EntityLivingBase, par2, par4 - 0.5F, par6, par8, par9);
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
     }
 
