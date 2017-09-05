@@ -1,0 +1,21 @@
+[
+{
+  "modid" : "shatter",
+  "name" : "Shatter",
+  "version" : "${version}",
+  "url" : "http://ichun.me/mods/shatter/",
+  "credits" : "",
+  "authorList": [
+    "iChun"
+  ],
+  "description": "",
+  "logoFile" : "",
+  "updateUrl" : "",
+  "parent" : "",
+  "screenshots": [
+  ],
+  "dependencies": [
+    "Forge"
+  ]
+}
+]

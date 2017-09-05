@@ -1,73 +1,63 @@
 package me.ichun.mods.shatter.client.render;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import us.ichun.mods.ichunutil.common.core.util.ObfHelper;
-import org.lwjgl.opengl.GL11;
+import me.ichun.mods.ichunutil.common.core.util.ObfHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
-import net.minecraft.client.model.ModelBase;
+import me.ichun.mods.shatter.client.model.ModelShattered;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import org.lwjgl.opengl.GL11;
 
-public class RenderShattered extends RendererLivingEntity<EntityShattered>
+public class RenderShattered extends Render<EntityShattered>
 {
-
-	public RenderShattered(RenderManager manager, ModelBase par1ModelBase, float par2)
-	{
-		super(manager, par1ModelBase, par2);
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) 
-	{
-		if(entity instanceof EntityShattered)
-		{
-			setMainModel(((EntityShattered)entity).model);
-		}
-		RenderManager manager = Minecraft.getMinecraft().getRenderManager();
-		return ObfHelper.invokeGetEntityTexture(manager.getEntityRenderObject(((EntityShattered)entity).acquired), manager.getEntityRenderObject(((EntityShattered)entity).acquired).getClass(), ((EntityShattered)entity).acquired);
-	}
-	
-	@Override
-    public void passSpecialRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
+    public RenderShattered(RenderManager manager)
     {
+        super(manager);
+        shadowSize = 0F;
     }
 
     @Override
-    public void doRender(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+    protected ResourceLocation getEntityTexture(EntityShattered entity)
     {
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        super.doRender(par1EntityLivingBase, par2, par4 - 0.5F, par6, par8, par9);
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+        return ObfHelper.getEntityTexture(renderManager.getEntityRenderObject(entity.acquired), renderManager.getEntityRenderObject(entity.acquired).getClass(), entity.acquired);
     }
 
-	@Override
-	protected void preRenderCallback(EntityLivingBase ent, float renderTick)
-	{
-		if(ent instanceof EntityShattered)
-		{
-			//		FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
-			//		FloatBuffer buffer1 = GLAllocation.createDirectFloatBuffer(16);
-			//
-			//		GL11.glPushMatrix();
-			//		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, buffer);
-			ObfHelper.invokePreRenderCallback((((EntityShattered)ent).model).entRenderer, (((EntityShattered)ent).model).entRenderer.getClass(), (((EntityShattered)ent).model).shatteredEnt.acquired, renderTick);
-			//		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, buffer1);
-			//		GL11.glPopMatrix();
+    @Override
+    public void doRender(EntityShattered shattered, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+        if(shattered.model == null)
+        {
+            shattered.model = new ModelShattered(shattered);
+        }
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        GlStateManager.rotate(180F, 0F, 1F, 0F);
+        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 
-			//		float prevScaleX = buffer1.get(0) / buffer.get(0);
-			//		float prevScaleY = buffer1.get(1) / buffer.get(1);
-			//		float prevScaleZ = buffer1.get(2) / buffer.get(2);
-			//
-			//		GL11.glScalef(prevScaleX, prevScaleY, prevScaleZ);
-		}
-	}
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-	public void setMainModel(ModelBase base)
-	{
-		mainModel = base;
-	}
+        bindTexture(getEntityTexture(shattered));
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+        ObfHelper.invokePreRenderCallback((RenderLivingBase)shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, partialTicks);
+        GlStateManager.translate(0F, -1F, 0F);
+        shattered.model.render(shattered, 0F, 0F, 0F, 0F, 0F, 0.0625F);
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+
+        GlStateManager.disableBlend();
+
+        GlStateManager.popMatrix();
+    }
+
+    public static class RenderFactory implements IRenderFactory<EntityShattered>
+    {
+        @Override
+        public Render<EntityShattered> createRenderFor(RenderManager manager)
+        {
+            return new RenderShattered(manager);
+        }
+    }
 }

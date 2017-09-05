@@ -1,6 +1,8 @@
 package me.ichun.mods.shatter.client.core;
 
 import me.ichun.mods.ichunutil.common.iChunUtil;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.client.render.RenderShattered;
 import me.ichun.mods.shatter.common.Shatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -9,11 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import me.ichun.mods.shatter.client.entity.EntityShattered;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,18 +22,18 @@ import java.util.Map;
 
 public class EventHandlerClient
 {
-    public HashMap<EntityLivingBase, Integer> shatterTimeout = new HashMap<EntityLivingBase, Integer>();
-    public ArrayList<EntityPlayer> deadPlayers = new ArrayList<EntityPlayer>();
+    public HashMap<EntityLivingBase, Integer> shatterTimeout = new HashMap<>();
+    public ArrayList<EntityPlayer> deadPlayers = new ArrayList<>();
 
     public void initMod()
     {
-        RenderingRegistry.registerEntityRenderingHandler(EntityShattered.class, new EntityShattered.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(EntityShattered.class, new RenderShattered.RenderFactory());
     }
 
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event)
     {
-        if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+        if(event.getEntityLiving().getEntityWorld().isRemote)
         {
             if(Shatter.config.enableBossShatter == 0 && !event.getEntityLiving().isNonBoss() || Shatter.config.enableChildShatter == 0 && event.getEntityLiving().isChild())
             {
