@@ -1,14 +1,16 @@
-package us.ichun.mods.shatter.client.entity;
+package me.ichun.mods.shatter.client.entity;
 
-import us.ichun.mods.shatter.client.model.ModelShattered;
-import us.ichun.mods.shatter.common.Shatter;
-import net.minecraft.entity.Entity;
+import me.ichun.mods.shatter.client.render.RenderShattered;
+import me.ichun.mods.shatter.common.Shatter;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import me.ichun.mods.shatter.client.model.ModelShattered;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import us.ichun.mods.shatter.common.Shatter;
 
 public class EntityShattered extends EntityLivingBase
 {
@@ -53,7 +55,7 @@ public class EntityShattered extends EntityLivingBase
 		prevPosZ = posZ;
 		
 		progress++;
-		if(progress > Shatter.tickHandlerClient.maxShatterProgress + 5)
+		if(progress > 100 + 5)
 		{
 			setDead();
 			return;
@@ -140,4 +142,13 @@ public class EntityShattered extends EntityLivingBase
 	{
 		return new ItemStack[0];
 	}
+
+    public static class RenderFactory implements IRenderFactory<EntityShattered>
+    {
+        @Override
+        public Render<EntityShattered> createRenderFor(RenderManager manager)
+        {
+            return new RenderShattered(manager, new ModelShattered(), 0.0F);
+        }
+    }
 }

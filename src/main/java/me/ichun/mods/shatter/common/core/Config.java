@@ -1,8 +1,8 @@
-package us.ichun.mods.shatter.common.core;
+package me.ichun.mods.shatter.common.core;
 
-import us.ichun.mods.ichunutil.common.core.config.ConfigBase;
-import us.ichun.mods.ichunutil.common.core.config.annotations.ConfigProp;
-import us.ichun.mods.ichunutil.common.core.config.annotations.IntBool;
+import me.ichun.mods.ichunutil.common.core.config.ConfigBase;
+import me.ichun.mods.ichunutil.common.core.config.annotations.ConfigProp;
+import me.ichun.mods.ichunutil.common.core.config.annotations.IntBool;
 
 import java.io.File;
 
@@ -20,9 +20,9 @@ public class Config extends ConfigBase
     @IntBool
     public int enableChildShatter = 0;
 
-    public Config(File file, String... unhide)
+    public Config(File file)
     {
-        super(file, unhide);
+        super(file);
     }
 
     @Override

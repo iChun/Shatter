@@ -1,5 +1,7 @@
-package us.ichun.mods.shatter.client.model;
+package me.ichun.mods.shatter.client.model;
 
+import me.ichun.mods.ichunutil.client.model.util.ModelHelper;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -7,13 +9,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.common.Shatter;
-import us.ichun.mods.ichunutil.client.model.ModelHelper;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
-import us.ichun.mods.shatter.common.Shatter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,7 +39,7 @@ public class ModelShattered extends ModelBase
 			RenderManager manager = Minecraft.getMinecraft().getRenderManager();
 			this.entRenderer = manager.getEntityRenderObject(ent.acquired);
 
-			if(manager.renderEngine != null && manager.livingPlayer != null && ent.acquired != null)
+			if(manager.renderEngine != null && manager.renderViewEntity != null && ent.acquired != null)
 			{
 				manager.getEntityRenderObject(ent.acquired).doRender(ent.acquired, 0.0D, -500D, 0.0D, 0.0F, 1.0F);
 			}
@@ -69,7 +66,7 @@ public class ModelShattered extends ModelBase
 
 		GlStateManager.rotate(renderYaw, 0.0F, 1.0F, 0.0F);
 
-		float progress = MathHelper.clamp_float((float)Math.pow(((double)shatteredEnt.progress + f5) / (double)Shatter.tickHandlerClient.maxShatterProgress, 0.99D), 0.0F, 1.0F);
+		float progress = MathHelper.clamp_float((float)Math.pow(((double)shatteredEnt.progress + f5) / 100D, 0.99D), 0.0F, 1.0F);
 
 		GlStateManager.depthMask(true);
 		GlStateManager.enableBlend();

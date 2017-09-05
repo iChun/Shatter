@@ -1,25 +1,23 @@
-package us.ichun.mods.shatter.client.render;
+package me.ichun.mods.shatter.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.monster.EntitySlime;
 import us.ichun.mods.ichunutil.common.core.util.ObfHelper;
 import org.lwjgl.opengl.GL11;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import us.ichun.mods.shatter.client.entity.EntityShattered;
 
-public class RenderShattered extends RendererLivingEntity 
+public class RenderShattered extends RendererLivingEntity<EntityShattered>
 {
 
-	public RenderShattered(ModelBase par1ModelBase, float par2) 
+	public RenderShattered(RenderManager manager, ModelBase par1ModelBase, float par2)
 	{
-		super(Minecraft.getMinecraft().getRenderManager(), par1ModelBase, par2);
+		super(manager, par1ModelBase, par2);
 	}
 
 	@Override
