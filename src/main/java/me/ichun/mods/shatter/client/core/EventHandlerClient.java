@@ -46,13 +46,13 @@ public class EventHandlerClient
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if(!(event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().theWorld != null))
+        if(!(event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().world != null))
         {
             return;
         }
 
         Minecraft mc = Minecraft.getMinecraft();
-        WorldClient world = mc.theWorld;
+        WorldClient world = mc.world;
 
         if(!mc.isGamePaused())
         {
@@ -75,9 +75,9 @@ public class EventHandlerClient
 
                 if(e.getValue() <= 0)
                 {
-                    if(ent.worldObj == world)
+                    if(ent.world == world)
                     {
-                        ent.worldObj.spawnEntityInWorld(new EntityShattered(ent.worldObj, ent));
+                        ent.world.spawnEntity(new EntityShattered(ent.world, ent));
                         ent.setDead();
                     }
                     ite.remove();
@@ -93,7 +93,7 @@ public class EventHandlerClient
         {
             return;
         }
-        World world = event.player.worldObj;
+        World world = event.player.world;
         EntityPlayer player = event.player;
 
         if(Shatter.config.enablePlayerShatter == 1)
@@ -106,7 +106,7 @@ public class EventHandlerClient
             for(int k = deadPlayers.size() - 1; k >= 0; k--)
             {
                 EntityPlayer deadPlayer = deadPlayers.get(k);
-                if(deadPlayer.worldObj != world || deadPlayer.getName().equals(player.getName()) && deadPlayer != player)
+                if(deadPlayer.world != world || deadPlayer.getName().equals(player.getName()) && deadPlayer != player)
                 {
                     deadPlayers.remove(k);
                 }

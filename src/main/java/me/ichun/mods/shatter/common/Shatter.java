@@ -10,17 +10,20 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Shatter.MOD_ID, name = Shatter.MOD_NAME, version = Shatter.VERSION, guiFactory = "me.ichun.mods.ichunutil.common.core.config.GenericModGuiFactory", dependencies = "required-after:ichunutil@[" + iChunUtil.VERSION_MAJOR + ".4.0," + (iChunUtil.VERSION_MAJOR + 1) + ".0.0)", acceptableRemoteVersions = "[" + iChunUtil.VERSION_MAJOR + ".0.0," + iChunUtil.VERSION_MAJOR + ".1.0)", clientSideOnly = true)
+@Mod(modid = Shatter.MOD_ID, name = Shatter.MOD_NAME,
+        version = Shatter.VERSION,
+        guiFactory = iChunUtil.GUI_CONFIG_FACTORY,
+        dependencies = "required-after:ichunutil@[" + iChunUtil.VERSION_MAJOR + ".0.1," + (iChunUtil.VERSION_MAJOR + 1) + ".0.0)",
+        acceptableRemoteVersions = "[" + iChunUtil.VERSION_MAJOR + ".0.0," + iChunUtil.VERSION_MAJOR + ".1.0)",
+        acceptedMinecraftVersions = iChunUtil.MC_VERSION_RANGE,
+        clientSideOnly = true
+)
 public class Shatter
 {
     public static final String MOD_ID = "shatter";
     public static final String MOD_NAME = "Shatter";
     public static final String VERSION = iChunUtil.VERSION_MAJOR + ".0.0";
-
-    public static final Logger LOGGER = LogManager.getLogger("Shatter");
 
     @Instance(MOD_ID)
     public static Shatter instance;
@@ -39,6 +42,6 @@ public class Shatter
 
         eventHandlerClient.initMod();
 
-        UpdateChecker.registerMod(new UpdateChecker.ModVersionInfo("Shatter", iChunUtil.VERSION_OF_MC, VERSION, false));
+        UpdateChecker.registerMod(new UpdateChecker.ModVersionInfo(MOD_NAME, iChunUtil.VERSION_OF_MC, VERSION, true));
     }
 }
