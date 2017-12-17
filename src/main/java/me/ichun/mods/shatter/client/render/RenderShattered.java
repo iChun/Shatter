@@ -32,24 +32,28 @@ public class RenderShattered extends Render<EntityShattered>
         {
             shattered.model = new ModelShattered(shattered);
         }
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.rotate(180F, 0F, 1F, 0F);
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
+        ResourceLocation rl = getEntityTexture(shattered);
+        if(shattered.model.entRenderer instanceof RenderLivingBase && rl != null)
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(x, y, z);
+            GlStateManager.rotate(180F, 0F, 1F, 0F);
+            GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        bindTexture(getEntityTexture(shattered));
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        ObfHelper.invokePreRenderCallback((RenderLivingBase)shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, partialTicks);
-        GlStateManager.translate(0F, -1F, 0F);
-        shattered.model.render(shattered, 0F, 0F, 0F, 0F, 0F, 0.0625F);
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
+            bindTexture(rl);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+            ObfHelper.invokePreRenderCallback((RenderLivingBase)shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, partialTicks);
+            GlStateManager.translate(0F, -1F, 0F);
+            shattered.model.render(shattered, 0F, 0F, 0F, 0F, 0F, 0.0625F);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 
-        GlStateManager.disableBlend();
+            GlStateManager.disableBlend();
 
-        GlStateManager.popMatrix();
+            GlStateManager.popMatrix();
+        }
     }
 
     public static class RenderFactory implements IRenderFactory<EntityShattered>

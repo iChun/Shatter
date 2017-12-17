@@ -23,7 +23,7 @@ public class Shatter
 {
     public static final String MOD_ID = "shatter";
     public static final String MOD_NAME = "Shatter";
-    public static final String VERSION = iChunUtil.VERSION_MAJOR + ".0.0";
+    public static final String VERSION = iChunUtil.VERSION_MAJOR + ".0.1";
 
     @Instance(MOD_ID)
     public static Shatter instance;
