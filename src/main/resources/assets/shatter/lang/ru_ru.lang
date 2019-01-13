@@ -1,11 +1,11 @@
-shatter.config.cat.clientOnly.name=Только клиент
+shatter.config.cat.clientOnly.name=Только для клиента
 
-shatter.config.cat.clientOnly.comment=Эти параметры влияют на геймплей, когда используется данный мод.
+shatter.config.cat.clientOnly.comment=Эти настройки влияют только на клиент, который использует этот мод.
 
-shatter.config.prop.enableBossShatter.name=Включить/Выключить в Shatter - Боссы
-shatter.config.prop.enablePlayerShatter.name=Включить/Выключить в Shatter - Игроки
-shatter.config.prop.enableChildShatter.name=Включить/Выключить в Shatter - Детёныши
+shatter.config.prop.enableBossShatter.name=Включить Shatter для - Боссы
+shatter.config.prop.enablePlayerShatter.name=Включить Shatter для - Игроки
+shatter.config.prop.enableChildShatter.name=Включить Shatter для - Детёныши
 
-shatter.config.prop.enableBossShatter.comment=Причина, по которой отключена по умолчанию из-за рендеринга вопросов, которые могут возникнуть из-за некоторых боссов, уникальных моделей.Примеры в Minecraft Эндер дракона, Naga и Гидра из мода Twilight Forest.
-shatter.config.prop.enablePlayerShatter.comment=Исползовать Shatter на игроках?
-shatter.config.prop.enableChildShatter.comment=Причина, по которой отключена по умолчанию из-за рендеринга вопросов, которые возникают в связи с тем Minecraft подгоняет детёнышей.Shatter'ирование детёнышей мобов будет показывать модели для взрослых.
+shatter.config.prop.enableBossShatter.comment=Эта опция отключена по умолчанию из-за проблем с рендерингом, которые могут возникнуть из-за уникальных моделей боссов.\nХорошим примером будет Дракон Края (Minecraft), Нага и Гидра (мод Twilight Forest).
+shatter.config.prop.enablePlayerShatter.comment=Включить Shatter для игроков?
+shatter.config.prop.enableChildShatter.comment=Эта опция отключена по умолчанию из-за проблем с рендерингом, возникающих в связи с тем как Minecraft масштабирует модели детёнышей.\nПри этом будут показываться взрослые модели для детёнышей мобов.
