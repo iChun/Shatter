@@ -1,0 +1,9 @@
+{
+  "config.shatter.prop.enableBossShatter.name": "Включить/Выключить в Shatter - Боссы",
+  "config.shatter.prop.enablePlayerShatter.name": "Включить/Выключить в Shatter - Игроки",
+  "config.shatter.prop.enableChildShatter.name": "Включить/Выключить в Shatter - Детёныши",
+
+  "config.shatter.prop.enableBossShatter.comment": "Причина, по которой отключена по умолчанию из-за рендеринга вопросов, которые могут возникнуть из-за некоторых боссов, уникальных моделей.Примеры в Minecraft Эндер дракона, Naga и Гидра из мода Twilight Forest.",
+  "config.shatter.prop.enablePlayerShatter.comment": "Исползовать Shatter на игроках?",
+  "config.shatter.prop.enableChildShatter.comment": "Причина, по которой отключена по умолчанию из-за рендеринга вопросов, которые возникают в связи с тем Minecraft подгоняет детёнышей.Shatter'ирование детёнышей мобов будет показывать модели для взрослых."
+}

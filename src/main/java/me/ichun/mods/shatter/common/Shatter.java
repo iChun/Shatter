@@ -1,47 +1,69 @@
 package me.ichun.mods.shatter.common;
 
-import me.ichun.mods.ichunutil.common.core.config.ConfigHandler;
-import me.ichun.mods.ichunutil.common.iChunUtil;
-import me.ichun.mods.ichunutil.common.module.update.UpdateChecker;
-import me.ichun.mods.shatter.client.core.EventHandlerClient;
+import me.ichun.mods.shatter.client.core.EventHandler;
+import me.ichun.mods.shatter.client.entity.EntityShattered;
+import me.ichun.mods.shatter.client.render.RenderShattered;
 import me.ichun.mods.shatter.common.core.Config;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Shatter.MOD_ID, name = Shatter.MOD_NAME,
-        version = Shatter.VERSION,
-        guiFactory = iChunUtil.GUI_CONFIG_FACTORY,
-        dependencies = "required-after:ichunutil@[" + iChunUtil.VERSION_MAJOR + ".0.1," + (iChunUtil.VERSION_MAJOR + 1) + ".0.0)",
-        acceptableRemoteVersions = "[" + iChunUtil.VERSION_MAJOR + ".0.0," + iChunUtil.VERSION_MAJOR + ".1.0)",
-        acceptedMinecraftVersions = iChunUtil.MC_VERSION_RANGE,
-        clientSideOnly = true
-)
+@Mod(Shatter.MOD_ID)
 public class Shatter
 {
     public static final String MOD_ID = "shatter";
     public static final String MOD_NAME = "Shatter";
-    public static final String VERSION = iChunUtil.VERSION_MAJOR + ".0.0";
 
-    @Instance(MOD_ID)
-    public static Shatter instance;
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static Config config;
 
-    public static EventHandlerClient eventHandlerClient;
+    public static EventHandler eventHandler;
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
+    public Shatter()
     {
-        config = ConfigHandler.registerConfig(new Config(event.getSuggestedConfigurationFile()));
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            config = new Config().init();
 
-        eventHandlerClient = new EventHandlerClient();
-        MinecraftForge.EVENT_BUS.register(eventHandlerClient);
+            MinecraftForge.EVENT_BUS.register(eventHandler = new EventHandler());
+            IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+            EntityTypes.REGISTRY.register(bus);
+            bus.addListener(this::onClientSetup);
+        });
+        DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> LOGGER.log(Level.ERROR, "You are loading " + MOD_NAME + " on a server. " + MOD_NAME + " is a client only mod!"));
+    }
 
-        eventHandlerClient.initMod();
+    private void onClientSetup(FMLClientSetupEvent event)
+    {
+        RenderingRegistry.registerEntityRenderingHandler(EntityTypes.SHATTERED.get(), new RenderShattered.RenderFactory());
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> me.ichun.mods.ichunutil.client.core.EventHandlerClient::getConfigGui);
+    }
 
-        UpdateChecker.registerMod(new UpdateChecker.ModVersionInfo(MOD_NAME, iChunUtil.VERSION_OF_MC, VERSION, true));
+    public static class EntityTypes
+    {
+        private static final DeferredRegister<EntityType<?>> REGISTRY = new DeferredRegister<>(ForgeRegistries.ENTITIES, MOD_ID);
+
+        public static final RegistryObject<EntityType<EntityShattered>> SHATTERED = REGISTRY.register("shattered", () -> EntityType.Builder.create(EntityShattered::new, EntityClassification.MISC)
+                .size(0.1F, 0.1F)
+                .disableSerialization()
+                .disableSummoning()
+                .immuneToFire()
+                .build("from " + MOD_NAME + ". Ignore this.")
+        );
     }
 }

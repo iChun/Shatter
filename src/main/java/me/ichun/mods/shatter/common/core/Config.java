@@ -1,39 +1,48 @@
 package me.ichun.mods.shatter.common.core;
 
-import me.ichun.mods.ichunutil.common.core.config.ConfigBase;
-import me.ichun.mods.ichunutil.common.core.config.annotations.ConfigProp;
-import me.ichun.mods.ichunutil.common.core.config.annotations.IntBool;
+import me.ichun.mods.ichunutil.common.config.ConfigBase;
+import me.ichun.mods.ichunutil.common.config.annotations.CategoryDivider;
+import me.ichun.mods.ichunutil.common.config.annotations.Prop;
+import me.ichun.mods.shatter.common.Shatter;
+import net.minecraftforge.fml.config.ModConfig;
 
-import java.io.File;
+import javax.annotation.Nonnull;
+
 
 public class Config extends ConfigBase
 {
-    @ConfigProp(category = "clientOnly")
-    @IntBool
-    public int enableBossShatter = 0;
+    @CategoryDivider(name = "clientOnly")
+    @Prop
+    public boolean enableBossShatter = false;
 
-    @ConfigProp(category = "clientOnly")
-    @IntBool
-    public int enablePlayerShatter = 1;
+    @Prop
+    public boolean enablePlayerShatter = true;
 
-    @ConfigProp(category = "clientOnly")
-    @IntBool
-    public int enableChildShatter = 0;
+    @Prop
+    public boolean enableChildShatter = false;
 
-    public Config(File file)
+    public Config()
     {
-        super(file);
+        super();
     }
 
     @Override
     public String getModId()
     {
-        return "shatter";
+        return Shatter.MOD_ID;
     }
 
+    @Nonnull
     @Override
-    public String getModName()
+    public String getConfigName()
     {
-        return "Shatter";
+        return Shatter.MOD_NAME;
+    }
+
+    @Nonnull
+    @Override
+    public ModConfig.Type getConfigType()
+    {
+        return ModConfig.Type.CLIENT;
     }
 }

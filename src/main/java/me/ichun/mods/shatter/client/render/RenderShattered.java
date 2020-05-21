@@ -1,61 +1,58 @@
 package me.ichun.mods.shatter.client.render;
 
-import me.ichun.mods.ichunutil.common.core.util.ObfHelper;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import me.ichun.mods.ichunutil.common.iChunUtil;
+import me.ichun.mods.ichunutil.common.util.ObfHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
 import me.ichun.mods.shatter.client.model.ModelShattered;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import org.lwjgl.opengl.GL11;
 
-public class RenderShattered extends Render<EntityShattered>
+public class RenderShattered extends EntityRenderer<EntityShattered>
 {
-    public RenderShattered(RenderManager manager)
+    public RenderShattered(EntityRendererManager manager)
     {
         super(manager);
         shadowSize = 0F;
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityShattered entity)
+    public ResourceLocation getEntityTexture(EntityShattered entity)
     {
-        return ObfHelper.getEntityTexture(renderManager.getEntityRenderObject(entity.acquired), renderManager.getEntityRenderObject(entity.acquired).getClass(), entity.acquired);
+        EntityRenderer<?> renderer = renderManager.getRenderer(entity.acquired);
+        return ObfHelper.getEntityTexture(renderer, renderer.getClass(), entity.acquired);
     }
 
     @Override
-    public void doRender(EntityShattered shattered, double x, double y, double z, float entityYaw, float partialTicks)
+    public void render(EntityShattered shattered, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn)
     {
         if(shattered.model == null)
         {
             shattered.model = new ModelShattered(shattered);
         }
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.rotate(180F, 0F, 1F, 0F);
-        GlStateManager.scale(-1.0F, -1.0F, 1.0F);
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
+        matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        if(shattered.model.entRenderer != null)
+        {
+            ObfHelper.invokePreRenderCallback(shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, matrixStackIn, partialTicks);
+        }
+        matrixStackIn.translate(0F, -0.75F, 0F);
 
-        bindTexture(getEntityTexture(shattered));
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        ObfHelper.invokePreRenderCallback((RenderLivingBase)shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, partialTicks);
-        GlStateManager.translate(0F, -1F, 0F);
-        shattered.model.render(shattered, 0F, 0F, 0F, 0F, 0F, 0.0625F);
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-
-        GlStateManager.disableBlend();
-
-        GlStateManager.popMatrix();
+        shattered.model.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityTranslucentCull(getEntityTexture(shattered))), packedLightIn, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, MathHelper.clamp((float)Math.pow(((double)shattered.progress + iChunUtil.eventHandlerClient.partialTick) / 100D, 0.99D), 0.0F, 1.0F));
     }
 
     public static class RenderFactory implements IRenderFactory<EntityShattered>
     {
         @Override
-        public Render<EntityShattered> createRenderFor(RenderManager manager)
+        public EntityRenderer<EntityShattered> createRenderFor(EntityRendererManager manager)
         {
             return new RenderShattered(manager);
         }

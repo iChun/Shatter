@@ -1,0 +1,9 @@
+{
+  "config.shatter.prop.enableBossShatter.name": "Engedélyez Shatter - Boss mobok",
+  "config.shatter.prop.enablePlayerShatter.name": "Engedélyez Shatter - Játékos mobok",
+  "config.shatter.prop.enableChildShatter.name": "Engedélyez Shatter - Bébi mobok",
+
+  "config.shatter.prop.enableBossShatter.comment": "Az ok amiért alapból le van tiltva, mivel renderelési problémák vannak amik összetettebb bossoknál jelentkeznek.\nEgy jó példa Minecraft: EnderDragon vagy a Twilight Forest-ből Naga vagy a Hydra.",
+  "config.shatter.prop.enablePlayerShatter.comment": "Engedélyezzem a Shattert játékosokon?",
+  "config.shatter.prop.enableChildShatter.comment": "Az ok amiért ez le van tiltva, mivel problémák vannak a Minecraft mob átméretezési funkcióival.\nA Shatter felnőtt mobokat fog mutatni a bébik helyett!"
+}

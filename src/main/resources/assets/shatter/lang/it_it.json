@@ -1,0 +1,9 @@
+{
+  "config.shatter.prop.enableBossShatter.name": "Abilita Shatter - Mob boss",
+  "config.shatter.prop.enablePlayerShatter.name": "Abilita Shatter - Mob giocatore",
+  "config.shatter.prop.enableChildShatter.name": "Abilita Shatter - Mob piccoli",
+
+  "config.shatter.prop.enableBossShatter.comment": "La ragione per cui questo è disabilitato di default, è per i problemi di rendering che potrebbero avvenire per i modelli particolari di alcuni boss.\nBuoni esempi solo il drago dell'end, e i Naga ed Hydra della Twilight Forest.",
+  "config.shatter.prop.enablePlayerShatter.comment": "Abilitare Shatter sui Giocatori?",
+  "config.shatter.prop.enableChildShatter.comment": "La ragione per cui questo è disabilitato di default, è per i problemi di rendering che avvengono per il modo in cui Minecraft riscala i piccoli.\nUsare lo Shatter su un mob piccolo mostrerà un mob adulto."
+}

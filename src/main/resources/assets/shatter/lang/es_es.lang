@@ -1,8 +1,0 @@
-shatter.config.cat.clientOnly.name=Sólo Cliente
-shatter.config.cat.clientOnly.comment=Estas configuraciones sólo afectan al cliente que carga el mod.
-shatter.config.prop.enableBossShatter.name=Activar Shatter - Boss mobs
-shatter.config.prop.enablePlayerShatter.name=Activar Shatter - Jugadores
-shatter.config.prop.enableChildShatter.name=Activar Shatter - Mobs hijos (ejemplo: Zombies Pequeños)
-shatter.config.prop.enableBossShatter.comment=La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a los modelos de algunos bosses.\nAlgunos de estos bosses son el Ender Dragon de Minecraft y la Naga e Hydra del TwilightForest.
-shatter.config.prop.enablePlayerShatter.comment=¿Activar Shatter en Jugadores?
-shatter.config.prop.enableChildShatter.comment=La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a la manera en la que Minecraft reescala los mobs hijos.\nDestrozando mobs hijos mostrará el modelo del adulto.

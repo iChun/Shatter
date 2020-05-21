@@ -1,25 +1,27 @@
 package me.ichun.mods.shatter.client.model;
 
-import me.ichun.mods.ichunutil.client.model.util.ModelHelper;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import me.ichun.mods.ichunutil.client.model.ModelHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ModelShattered extends ModelBase
+public class ModelShattered extends Model
 {
     public EntityShattered shatteredEnt;
 
-    public Render entRenderer;
+    public LivingRenderer<?, ?> entRenderer;
 
     public Random rand;
 
@@ -27,67 +29,78 @@ public class ModelShattered extends ModelBase
 
     public float renderYaw;
 
-    public ModelShattered() {}
+    public ModelShattered()
+    {
+        super(RenderType::getEntityTranslucentCull);
+    }
 
     public ModelShattered(EntityShattered ent)
     {
+        this();
+
         this.shatteredEnt = ent;
         this.rand = new Random();
 
         if(ent != null)
         {
-            RenderManager manager = Minecraft.getMinecraft().getRenderManager();
-            this.entRenderer = manager.getEntityRenderObject(ent.acquired);
 
-            if(manager.renderEngine != null && manager.renderViewEntity != null && ent.acquired != null)
+            if(ent.acquired != null)
             {
-                manager.getEntityRenderObject(ent.acquired).doRender(ent.acquired, 0.0D, -500D, 0.0D, 0.0F, 1.0F);
-            }
+                EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
+                EntityRenderer rend = manager.getRenderer(ent.acquired);
+                if(rend instanceof LivingRenderer)
+                {
+                    this.entRenderer = (LivingRenderer<?, ?>)rend;
+                }
 
-            this.modelList = ModelHelper.getModelCubesCopy(ModelHelper.getModelCubes(ent.acquired), this, ent.acquired);
+                MatrixStack stack = new MatrixStack();
+                stack.translate(0F, -500F, 0F);
+                rend.render(ent.acquired, ent.acquired.rotationYawHead, 1F, stack, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 15728880);
 
-            for(ModelRenderer cube : modelList)
-            {
-                cube.rotationPointY -= 8.0D;
+                this.modelList = ModelHelper.explode(ModelHelper.createModelPartsFromProject(ModelHelper.convertModelToProject(entRenderer.getEntityModel())));
+
+                for(ModelRenderer cube : modelList)
+                {
+                    cube.rotationPointY -= 12.0D;
+                }
+
+                this.renderYaw = ent.acquired.renderYawOffset;
             }
         }
-
-        this.renderYaw = ent.acquired.renderYawOffset;
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    public void render(MatrixStack stack, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float progress)
     {
-        if(shatteredEnt.acquired == Minecraft.getMinecraft().player && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0)
+        if(shatteredEnt.acquired == Minecraft.getInstance().player && Minecraft.getInstance().gameSettings.thirdPersonView == 0)
         {
             return;
         }
-        GlStateManager.pushMatrix();
 
-        GlStateManager.rotate(renderYaw, 0.0F, 1.0F, 0.0F);
+        stack.push();
 
-        float progress = MathHelper.clamp((float)Math.pow(((double)shatteredEnt.progress + f5) / 100D, 0.99D), 0.0F, 1.0F);
+        stack.rotate(Vector3f.YP.rotationDegrees(renderYaw));
 
-        GlStateManager.depthMask(true);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F - progress);
-
+        Vec3d motion = shatteredEnt.getMotion();
+        float alpha = 1.0F - progress;
         for(int i = 0; i < modelList.size(); i++)
         {
             ModelRenderer cube = modelList.get(i);
 
-            GlStateManager.pushMatrix();
+            stack.push();
             rand.setSeed(rand.nextInt() * shatteredEnt.getEntityId() * i * 1000);
-            GlStateManager.translate(rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * shatteredEnt.motionZ * 5D, rand.nextDouble() * progress * (shatteredEnt.motionY + (rand.nextDouble() - 1.0D)), rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * shatteredEnt.motionX * 5D);
-            GlStateManager.rotate(180F * rand.nextFloat() * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress, rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress);
-            cube.render(f5);
-            GlStateManager.popMatrix();
+            stack.translate(rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * motion.z * 5D, rand.nextDouble() * progress * (motion.y + (rand.nextDouble() - 1.0D)), rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress * motion.x * 5D);
+            float rotBase = 180F * rand.nextFloat() * progress;
+            float rotX = rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress;
+            float rotY = rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress;
+            float rotZ = rand.nextFloat() * (rand.nextFloat() > 0.5F ? -1 : 1) * progress;
+            stack.rotate(Vector3f.XP.rotationDegrees(rotBase * rotX));
+            stack.rotate(Vector3f.YP.rotationDegrees(rotBase * rotY));
+            stack.rotate(Vector3f.ZP.rotationDegrees(rotBase * rotZ));
+            cube.render(stack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            stack.pop();
         }
 
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        stack.pop();
     }
 }

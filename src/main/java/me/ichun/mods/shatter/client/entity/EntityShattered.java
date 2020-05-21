@@ -2,77 +2,75 @@ package me.ichun.mods.shatter.client.entity;
 
 import me.ichun.mods.shatter.client.model.ModelShattered;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class EntityShattered extends Entity
 {
-    public EntityLivingBase acquired;
+    public LivingEntity acquired;
 
     public int progress;
 
     public ModelShattered model;
 
-    public EntityShattered(World par1World)
+    public EntityShattered(EntityType<?> entityTypeIn, World par1World)
     {
-        super(par1World);
-        setSize(0.1F, 0.1F);
+        super(entityTypeIn, par1World);
         noClip = true;
         ignoreFrustumCheck = true;
     }
 
-    public EntityShattered(World par1World, EntityLivingBase ac)
+    public EntityShattered setAcquired(LivingEntity ac)
     {
-        super(par1World);
         acquired = ac;
         progress = 0;
-        setSize(0.1F, 0.1F);
-        noClip = true;
-        ignoreFrustumCheck = true;
-        setLocationAndAngles(acquired.posX, acquired.posY, acquired.posZ, acquired.rotationYaw, acquired.rotationPitch);
-        motionX = ac.motionX * 0.4D;
-        motionY = ac.motionY * 0.15D;
-        motionZ = ac.motionZ * 0.4D;
+        setLocationAndAngles(acquired.getPosX(), acquired.getPosY(), acquired.getPosZ(), acquired.rotationYaw, acquired.rotationPitch);
+        Vec3d acMotion = ac.getMotion();
+        setMotion(acMotion.x * 0.4D, acMotion.y * 0.15D, acMotion.z * 0.4D);
+        return this;
     }
 
     @Override
-    protected void entityInit()
-    {
-    }
+    protected void registerData(){}
 
     @Override
-    public void onUpdate()
+    public void tick()
     {
-        prevPosX = posX;
-        prevPosY = posY;
-        prevPosZ = posZ;
+        super.tick();
+
+        prevPosX = getPosX();
+        prevPosY = getPosY();
+        prevPosZ = getPosZ();
 
         progress++;
         if(progress > 100 + 5)
         {
-            setDead();
+            remove();
             return;
         }
 
-        posX += motionX;
-        posY += motionY * 0.2D;
-        posZ += motionZ;
+        Vec3d motion = getMotion();
+        double pX = getPosX() + motion.x;
+        double pY = getPosY() + motion.y * 0.2D;
+        double pZ = getPosZ() + motion.z;
 
-        motionX *= 0.97D;
-        motionY *= 0.97D;
-        motionZ *= 0.97D;
-        setPosition(posX, posY, posZ);
+        setMotion(getMotion().mul(0.97D, 0.97D, 0.97D));
+        setPosition(pX, pY, pZ);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @OnlyIn(Dist.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-        double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 10.0D; // * 10D is the new renderDistanceWeight
+        double d0 = this.getBoundingBox().getAverageEdgeLength() * 10.0D; // * 10D is the new renderDistanceWeight
 
         if(Double.isNaN(d0))
         {
@@ -81,12 +79,6 @@ public class EntityShattered extends Entity
 
         d0 = d0 * 64.0D * getRenderDistanceWeight();
         return distance < d0 * d0;
-    }
-
-    @Override
-    public boolean shouldRenderInPass(int pass)
-    {
-        return pass == 1;
     }
 
     @Override
@@ -102,20 +94,17 @@ public class EntityShattered extends Entity
     }
 
     @Override
-    public boolean isEntityAlive()
+    public boolean writeUnlessRemoved(CompoundNBT compound) { return false; } //disable saving of entity
+
+    @Override
+    protected void readAdditional(CompoundNBT compound){}
+
+    @Override
+    protected void writeAdditional(CompoundNBT compound){}
+
+    @Override
+    public IPacket<?> createSpawnPacket()
     {
-        return !this.isDead;
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
-
-    @Override
-    public boolean writeToNBTOptional(NBTTagCompound par1NBTTagCompound)
-    {
-        return false;
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {}
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {}
 }

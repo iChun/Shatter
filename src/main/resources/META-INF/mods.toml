@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[31,)" #forge version dep
+issueTrackerURL="https://github.com/iChun/Shatter/issues"
+
+[[mods]]
+    modId="shatter"
+    version="${file.jarVersion}" #mandatory
+    displayName="Shatter"
+    displayURL="https://ichun.me/mods/shatter/"
+    authors="iChun"
+    description='''
+    This mod adds a new death animation. Mobs die, their bodies wrecked, and souls shattered, they just seem to fade away. Weee~~~
+    '''
+
+[[dependencies.shatter]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.shatter]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2,1.16)"
+    ordering="NONE"
+    side="BOTH"
