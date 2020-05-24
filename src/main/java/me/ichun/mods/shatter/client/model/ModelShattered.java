@@ -2,7 +2,7 @@ package me.ichun.mods.shatter.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import me.ichun.mods.ichunutil.client.model.ModelHelper;
+import me.ichun.mods.ichunutil.client.model.util.ModelHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
