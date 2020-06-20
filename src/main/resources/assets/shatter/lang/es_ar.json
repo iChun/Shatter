@@ -3,7 +3,7 @@
   "config.shatter.prop.enablePlayerShatter.name": "Encender Shatter - Jugadores mobs",
   "config.shatter.prop.enableChildShatter.name": "Encender Shatter - Bebes mobs",
 
-  "config.shatter.prop.enableBossShatter.comment": "La razon de que esto este apagado por default es debido por un problemas de rendimiento por unos jefes' unicos modelos.\nBuenos ejemplos son el Minecraft Dragon Ender, y Twilight Forest Naga y Hydra.",
-  "config.shatter.prop.enablePlayerShatter.comment": "Encender Shatter en los jugadores?",
-  "config.shatter.prop.enableChildShatter.comment": "La razon de que esto este apagado por default es debido por un problemas de rendimiento por la manera que Minecraft reescala los bebes.\nShattereando bebes mobs que muestran un modelo adulto."
+  "config.shatter.prop.enableBossShatter.desc": "La razon de que esto este apagado por default es debido por un problemas de rendimiento por unos jefes' unicos modelos.\nBuenos ejemplos son el Minecraft Dragon Ender, y Twilight Forest Naga y Hydra.",
+  "config.shatter.prop.enablePlayerShatter.desc": "Encender Shatter en los jugadores?",
+  "config.shatter.prop.enableChildShatter.desc": "La razon de que esto este apagado por default es debido por un problemas de rendimiento por la manera que Minecraft reescala los bebes.\nShattereando bebes mobs que muestran un modelo adulto."
 }

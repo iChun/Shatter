@@ -3,7 +3,7 @@
   "config.shatter.prop.enablePlayerShatter.name": "Activer Shatter - Joueurs",
   "config.shatter.prop.enableChildShatter.name": "Activer Shatter - Enfants",
 
-  "config.shatter.prop.enableBossShatter.comment": "La raison pour laquelle ce paramètre est désactivé par défaut est due à un bug de rendu qui peut arriver à cause de certains modéles uniques de boss, par exemple \nGood sont l'Enderdragon de Minecraft, le Naga et l'Hydra de Twilight Forest.",
-  "config.shatter.prop.enablePlayerShatter.comment": "Activer Shatter pour les joueurs?",
-  "config.shatter.prop.enableChildShatter.comment": "La raison pour laquelle ce paramètre est désactivé par défaut est due à un bug de rendu qui peut arriver à cause de la façon dont Minecraft redimensionne les enfants. Les monstres enfants de \nShattering auront un modèle d'adulte."
+  "config.shatter.prop.enableBossShatter.desc": "La raison pour laquelle ce paramètre est désactivé par défaut est due à un bug de rendu qui peut arriver à cause de certains modéles uniques de boss, par exemple \nGood sont l'Enderdragon de Minecraft, le Naga et l'Hydra de Twilight Forest.",
+  "config.shatter.prop.enablePlayerShatter.desc": "Activer Shatter pour les joueurs?",
+  "config.shatter.prop.enableChildShatter.desc": "La raison pour laquelle ce paramètre est désactivé par défaut est due à un bug de rendu qui peut arriver à cause de la façon dont Minecraft redimensionne les enfants. Les monstres enfants de \nShattering auront un modèle d'adulte."
 }

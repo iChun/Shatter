@@ -1,6 +1,7 @@
 package me.ichun.mods.shatter.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import me.ichun.mods.ichunutil.client.render.RenderHelper;
 import me.ichun.mods.ichunutil.common.iChunUtil;
 import me.ichun.mods.ichunutil.common.util.ObfHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
@@ -27,7 +28,7 @@ public class RenderShattered extends EntityRenderer<EntityShattered>
     public ResourceLocation getEntityTexture(EntityShattered entity)
     {
         EntityRenderer<?> renderer = renderManager.getRenderer(entity.acquired);
-        return ObfHelper.getEntityTexture(renderer, renderer.getClass(), entity.acquired);
+        return RenderHelper.getEntityTexture(renderer, entity.acquired);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class RenderShattered extends EntityRenderer<EntityShattered>
 
         if(shattered.model.entRenderer != null)
         {
-            ObfHelper.invokePreRenderCallback(shattered.model.entRenderer, shattered.model.entRenderer.getClass(), shattered.acquired, matrixStackIn, partialTicks);
+            RenderHelper.invokePreRenderCallback(shattered.model.entRenderer, shattered.acquired, matrixStackIn, partialTicks);
         }
         matrixStackIn.translate(0F, -0.75F, 0F);
 

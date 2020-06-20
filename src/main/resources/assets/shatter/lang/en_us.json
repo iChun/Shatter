@@ -3,7 +3,7 @@
   "config.shatter.prop.enablePlayerShatter.name": "Enable Shatter - Player mobs",
   "config.shatter.prop.enableChildShatter.name": "Enable Shatter - Child mobs",
 
-  "config.shatter.prop.enableBossShatter.comment": "The reason this is disabled by default is due to rendering issues that may occur due to some boss' unique models.\nGood examples are the Minecraft's Ender Dragon, and TwilightForest's Naga and Hydra.",
-  "config.shatter.prop.enablePlayerShatter.comment": "Enable Shatter on Players?",
-  "config.shatter.prop.enableChildShatter.comment": "The reason this is disabled by default is due to rendering issues that occur due to the way Minecraft rescales children.\nShattering child mobs will show an adult model."
+  "config.shatter.prop.enableBossShatter.desc": "The reason this is disabled by default is due to rendering issues that may occur due to some boss' unique models.\nGood examples are the Minecraft's Ender Dragon, and TwilightForest's Naga and Hydra.",
+  "config.shatter.prop.enablePlayerShatter.desc": "Enable Shatter on Players?",
+  "config.shatter.prop.enableChildShatter.desc": "The reason this is disabled by default is due to rendering issues that occur due to the way Minecraft rescales children.\nShattering child mobs will show an adult model."
 }

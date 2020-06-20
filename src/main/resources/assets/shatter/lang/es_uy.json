@@ -3,7 +3,7 @@
   "config.shatter.prop.enablePlayerShatter.name": "Activar Shatter - Jugadores",
   "config.shatter.prop.enableChildShatter.name": "Activar Shatter - Mobs niños",
 
-  "config.shatter.prop.enableBossShatter.comment": "La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurren cuando un jefe tiene modelos unicos./nBuenos ejemplos son el Ender Dragon, de Minecraft, y Naga y la Hydra de TwilightForest",
-  "config.shatter.prop.enablePlayerShatter.comment": "¿Activar Shatter en jugadores?",
-  "config.shatter.prop.enableChildShatter.comment": "La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurre porque Minecraft ajusta el tamaño de los niños.\nCortando mobs chicos mostraria modelos de mobs adultos."
+  "config.shatter.prop.enableBossShatter.desc": "La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurren cuando un jefe tiene modelos unicos./nBuenos ejemplos son el Ender Dragon, de Minecraft, y Naga y la Hydra de TwilightForest",
+  "config.shatter.prop.enablePlayerShatter.desc": "¿Activar Shatter en jugadores?",
+  "config.shatter.prop.enableChildShatter.desc": "La razón de que esto este deshabilitado por defecto es por problemas al renderizar que ocurre porque Minecraft ajusta el tamaño de los niños.\nCortando mobs chicos mostraria modelos de mobs adultos."
 }

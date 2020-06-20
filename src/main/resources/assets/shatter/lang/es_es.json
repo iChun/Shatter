@@ -2,7 +2,7 @@
   "config.shatter.prop.enableBossShatter.name": "Activar Shatter - Boss mobs",
   "config.shatter.prop.enablePlayerShatter.name": "Activar Shatter - Jugadores",
   "config.shatter.prop.enableChildShatter.name": "Activar Shatter - Mobs hijos (ejemplo: Zombies Pequeños)",
-  "config.shatter.prop.enableBossShatter.comment": "La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a los modelos de algunos bosses.\nAlgunos de estos bosses son el Ender Dragon de Minecraft y la Naga e Hydra del TwilightForest.",
-  "config.shatter.prop.enablePlayerShatter.comment": "¿Activar Shatter en Jugadores?",
-  "config.shatter.prop.enableChildShatter.comment": "La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a la manera en la que Minecraft reescala los mobs hijos.\nDestrozando mobs hijos mostrará el modelo del adulto."
+  "config.shatter.prop.enableBossShatter.desc": "La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a los modelos de algunos bosses.\nAlgunos de estos bosses son el Ender Dragon de Minecraft y la Naga e Hydra del TwilightForest.",
+  "config.shatter.prop.enablePlayerShatter.desc": "¿Activar Shatter en Jugadores?",
+  "config.shatter.prop.enableChildShatter.desc": "La razón por la cual esto está desactivado por defecto es debida a problemas de rendering que pueden ocurrir debido a la manera en la que Minecraft reescala los mobs hijos.\nDestrozando mobs hijos mostrará el modelo del adulto."
 }

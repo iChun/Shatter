@@ -3,7 +3,7 @@
   "config.shatter.prop.enablePlayerShatter.name": "Aktiviere Shatter - Spieler mobs",
   "config.shatter.prop.enableChildShatter.name": "Aktiviere Shatter - Kinder mobs",
 
-  "config.shatter.prop.enableBossShatter.comment": "Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern, die bei einigen Bossen auftreten können.\nGute Beispiele sind der Minecraft Enderdrache, sowie Naga und Hydra aus TwilightForest.",
-  "config.shatter.prop.enablePlayerShatter.comment": "Aktiviere Shatter von Spielern?",
-  "config.shatter.prop.enableChildShatter.comment": "Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern und der Art und Weise, wie Minecraft Kinder skaliert.\nShatter von Kinder Mobs zeigt Erwachsene Modele an."
+  "config.shatter.prop.enableBossShatter.desc": "Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern, die bei einigen Bossen auftreten können.\nGute Beispiele sind der Minecraft Enderdrache, sowie Naga und Hydra aus TwilightForest.",
+  "config.shatter.prop.enablePlayerShatter.desc": "Aktiviere Shatter von Spielern?",
+  "config.shatter.prop.enableChildShatter.desc": "Der Grund, wieso dies standardmäßig deaktiviert ist, liegt in Problemen beim Rendern und der Art und Weise, wie Minecraft Kinder skaliert.\nShatter von Kinder Mobs zeigt Erwachsene Modele an."
 }
