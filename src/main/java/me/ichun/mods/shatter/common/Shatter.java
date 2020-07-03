@@ -8,18 +8,16 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -44,7 +42,7 @@ public class Shatter
 
             MinecraftForge.EVENT_BUS.register(eventHandler = new EventHandler());
             IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-            EntityTypes.REGISTRY.register(bus);
+            bus.addListener(EntityTypes::onEntityTypeRegistry);
             bus.addListener(this::onClientSetup);
         });
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> LOGGER.log(Level.ERROR, "You are loading " + MOD_NAME + " on a server. " + MOD_NAME + " is a client only mod!"));
@@ -55,20 +53,21 @@ public class Shatter
 
     private void onClientSetup(FMLClientSetupEvent event)
     {
-        RenderingRegistry.registerEntityRenderingHandler(EntityTypes.SHATTERED.get(), new RenderShattered.RenderFactory());
+        RenderingRegistry.registerEntityRenderingHandler(EntityTypes.SHATTERED_TYPE, new RenderShattered.RenderFactory());
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> me.ichun.mods.ichunutil.client.core.EventHandlerClient::getConfigGui);
     }
 
     public static class EntityTypes
     {
-        private static final DeferredRegister<EntityType<?>> REGISTRY = new DeferredRegister<>(ForgeRegistries.ENTITIES, MOD_ID);
-
-        public static final RegistryObject<EntityType<EntityShattered>> SHATTERED = REGISTRY.register("shattered", () -> EntityType.Builder.create(EntityShattered::new, EntityClassification.MISC)
-                .size(0.1F, 0.1F)
-                .disableSerialization()
-                .disableSummoning()
-                .immuneToFire()
-                .build("from " + MOD_NAME + ". Ignore this.")
-        );
+        public static EntityType<EntityShattered> SHATTERED_TYPE;
+        public static void onEntityTypeRegistry(final RegistryEvent.Register<EntityType<?>> entityTypeRegistryEvent) //we're doing it this way because it's a client-side entity and we don't want to sync registry values
+        {
+            SHATTERED_TYPE = EntityType.Builder.create(EntityShattered::new, EntityClassification.MISC)
+                    .size(0.1F, 0.1F)
+                    .disableSerialization()
+                    .disableSummoning()
+                    .immuneToFire()
+                    .build("from " + MOD_NAME + ". Ignore this.");
+        }
     }
 }

@@ -69,7 +69,7 @@ public class EventHandler
                 {
                     if(ent.world == world)
                     {
-                        EntityShattered shattered = Shatter.EntityTypes.SHATTERED.get().create(ent.world).setAcquired(ent);
+                        EntityShattered shattered = Shatter.EntityTypes.SHATTERED_TYPE.create(ent.world).setAcquired(ent);
                         shattered.setEntityId(ClientEntityTracker.getNextEntId());
                         ((ClientWorld)ent.world).addEntity(shattered.getEntityId(), shattered);
                         ent.remove();
