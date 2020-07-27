@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -33,7 +33,7 @@ public class EntityShattered extends Entity
         acquired = ac;
         progress = 0;
         setLocationAndAngles(acquired.getPosX(), acquired.getPosY(), acquired.getPosZ(), acquired.rotationYaw, acquired.rotationPitch);
-        Vec3d acMotion = ac.getMotion();
+        Vector3d acMotion = ac.getMotion();
         setMotion(acMotion.x * 0.4D, acMotion.y * 0.15D, acMotion.z * 0.4D);
         return this;
     }
@@ -57,7 +57,7 @@ public class EntityShattered extends Entity
             return;
         }
 
-        Vec3d motion = getMotion();
+        Vector3d motion = getMotion();
         double pX = getPosX() + motion.x;
         double pY = getPosY() + motion.y * 0.2D;
         double pZ = getPosZ() + motion.z;

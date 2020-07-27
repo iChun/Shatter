@@ -6,13 +6,13 @@ import me.ichun.mods.ichunutil.client.model.util.ModelHelper;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -81,7 +81,7 @@ public class ModelShattered extends Model
 
         stack.rotate(Vector3f.YP.rotationDegrees(renderYaw));
 
-        Vec3d motion = shatteredEnt.getMotion();
+        Vector3d motion = shatteredEnt.getMotion();
         float alpha = 1.0F - progress;
         for(int i = 0; i < modelList.size(); i++)
         {
