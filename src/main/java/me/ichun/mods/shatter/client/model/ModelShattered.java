@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.settings.PointOfView;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -72,7 +73,7 @@ public class ModelShattered extends Model
     @Override
     public void render(MatrixStack stack, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float progress)
     {
-        if(shatteredEnt.acquired == Minecraft.getInstance().player && Minecraft.getInstance().gameSettings.thirdPersonView == 0)
+        if(shatteredEnt.acquired == Minecraft.getInstance().player && Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON)
         {
             return;
         }
