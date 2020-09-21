@@ -42,7 +42,7 @@ public class Shatter
 
             MinecraftForge.EVENT_BUS.register(eventHandler = new EventHandler());
             IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-            bus.addListener(EntityTypes::onEntityTypeRegistry);
+            bus.addGenericListener(EntityType.class, EntityTypes::onEntityTypeRegistry);
             bus.addListener(this::onClientSetup);
         });
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> LOGGER.log(Level.ERROR, "You are loading " + MOD_NAME + " on a server. " + MOD_NAME + " is a client only mod!"));
