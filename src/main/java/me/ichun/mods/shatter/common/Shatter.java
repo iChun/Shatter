@@ -12,6 +12,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -55,6 +56,11 @@ public class Shatter
     {
         RenderingRegistry.registerEntityRenderingHandler(EntityTypes.SHATTERED_TYPE, new RenderShattered.RenderFactory());
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> me.ichun.mods.ichunutil.client.core.EventHandlerClient::getConfigGui);
+    }
+
+    public static boolean hasMorphMod()
+    {
+        return ModList.get().isLoaded("morph");
     }
 
     public static class EntityTypes

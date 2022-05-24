@@ -1,6 +1,8 @@
 package me.ichun.mods.shatter.client.core;
 
 import me.ichun.mods.ichunutil.client.tracker.ClientEntityTracker;
+import me.ichun.mods.morph.api.MorphApi;
+import me.ichun.mods.morph.api.morph.MorphInfo;
 import me.ichun.mods.shatter.client.entity.EntityShattered;
 import me.ichun.mods.shatter.common.Shatter;
 import net.minecraft.client.Minecraft;
@@ -27,7 +29,7 @@ public class EventHandler
     {
         if(event.getEntityLiving().getEntityWorld().isRemote)
         {
-            if(!Shatter.config.enableBossShatter && !event.getEntityLiving().isNonBoss() || !Shatter.config.enableChildShatter && event.getEntityLiving().isChild())
+            if(!Shatter.config.enableBossShatter && !event.getEntityLiving().canChangeDimension() || !Shatter.config.enableChildShatter && event.getEntityLiving().isChild())
             {
                 return;
             }
@@ -57,10 +59,14 @@ public class EventHandler
 
                 LivingEntity ent = e.getKey();
 
-                //                if(iChunUtil.hasMorphMod() && ent instanceof PlayerEntity && me.ichun.mods.morph.api.MorphApi.getApiImpl().hasMorph(ent.getName(), Side.CLIENT))
-                //                {
-                //                    ent = me.ichun.mods.morph.api.MorphApi.getApiImpl().getMorphEntity(ent.getEntityWorld(), ent.getName(), Side.CLIENT);
-                //                }
+                if(Shatter.hasMorphMod() && ent instanceof PlayerEntity)
+                {
+                    MorphInfo morphInfo = MorphApi.getApiImpl().getMorphInfo((PlayerEntity)ent);
+                    if(morphInfo != null && morphInfo.isMorphed())
+                    {
+                        ent = morphInfo.getActiveMorphEntity();
+                    }
+                }
 
                 ent.hurtTime = 0;
                 ent.deathTime = 0;

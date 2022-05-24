@@ -58,7 +58,14 @@ public class ModelShattered extends Model
                 stack.translate(0F, -500F, 0F);
                 rend.render(ent.acquired, ent.acquired.rotationYawHead, 1F, stack, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 15728880);
 
-                this.modelList = ModelHelper.explode(ModelHelper.createModelPartsFromProject(ModelHelper.convertModelToProject(entRenderer.getEntityModel())));
+                if(entRenderer != null) //if the renderer isn't a living renderer
+                {
+                    this.modelList = ModelHelper.explode(ModelHelper.createModelPartsFromProject(ModelHelper.convertModelToProject(entRenderer.getEntityModel())));
+                }
+                else
+                {
+                    this.modelList = new ArrayList<>();
+                }
 
                 for(ModelRenderer cube : modelList)
                 {
